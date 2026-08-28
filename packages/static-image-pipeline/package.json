@@ -1,0 +1,5 @@
+{
+  "name": "@vividweb/static-image-pipeline",
+  "version": "0.0.0",
+  "main": "src/index.ts"
+}
