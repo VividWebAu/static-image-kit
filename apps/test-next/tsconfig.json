@@ -15,8 +15,12 @@
     "allowImportingTsExtensions": true,
     "jsx": "preserve",
     "incremental": true,
+    "types": ["node", "react", "react-dom"],
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@pipeline/*": ["../../packages/static-image-pipeline/src/*"],
+      "@react-static-images/*": ["../../packages/react-static-images/src/*"]
     },
     "plugins": [
       {

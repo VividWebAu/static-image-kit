@@ -13,8 +13,9 @@ export async function clusterBlurs(
   imageFeatures: Record<string, number[]>,
   k?: number
 ): Promise<ClusterResult[]> {
-  // TODO: Implement clustering orchestration
-  throw new Error('Not implemented');
+  console.log('[clusterBlurs] Clustering images with k =', k ?? 'auto');
+  // TODO: Implement clustering orchestration using k-means
+  throw new Error('clusterBlurs not implemented yet');
 }
 
 export { extractFeatures } from './extractFeatures.js';

@@ -19,14 +19,25 @@ export interface ManifestData {
 }
 
 export async function loadManifest(manifestPath: string): Promise<ManifestData> {
-  // TODO: Implement manifest loading from JSON
-  throw new Error('Not implemented');
+  console.log(`[loadManifest] Loading from: ${manifestPath}`);
+  // TODO: Implement manifest loading from JSON file or URL
+  throw new Error('loadManifest not implemented yet');
 }
 
 export function getImageBySource(
   manifest: ManifestData,
   src: string
 ): ManifestData['images'][0] | undefined {
-  // TODO: Implement image lookup by source
+  console.log(`[getImageBySource] Finding image: ${src}`);
+  // TODO: Implement image lookup by source path
+  return undefined;
+}
+
+export function getImageCluster(
+  manifest: ManifestData,
+  imageId: string
+): string[] | undefined {
+  console.log(`[getImageCluster] Finding cluster for: ${imageId}`);
+  // TODO: Return cluster members for given image
   return undefined;
 }

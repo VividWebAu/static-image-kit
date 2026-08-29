@@ -3,7 +3,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Static Image Pipeline - Test App',
-  description: 'Test app for static image pipeline RSC component',
+  description:
+    'Test app for static image pipeline RSC component and optimizations',
 };
 
 export default function RootLayout({

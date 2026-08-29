@@ -15,6 +15,7 @@ export interface ImageMetadata {
 export async function extractMetadata(
   imagePath: string
 ): Promise<ImageMetadata> {
-  // TODO: Implement metadata extraction
-  throw new Error('Not implemented');
+  console.log(`[extractMetadata] Processing: ${imagePath}`);
+  // TODO: Implement metadata extraction using sharp
+  throw new Error('extractMetadata not implemented yet');
 }

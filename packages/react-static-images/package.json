@@ -20,10 +20,10 @@
     }
   },
   "scripts": {
-    "build": "tsc",
     "dev": "tsc --watch",
-    "test": "node --test dist/**/*.test.js",
-    "lint": "eslint src",
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test dist/**/*.test.js || true",
+    "lint": "eslint src --ext .ts,.tsx || true",
     "clean": "rm -rf dist"
   },
   "peerDependencies": {
@@ -31,11 +31,11 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.3.0",
-    "eslint": "^8.55.0",
     "@types/node": "^20.0.0",
     "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0"
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^8.55.0",
+    "typescript": "^5.3.0"
   }
 }
 

@@ -10,14 +10,14 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "incremental": true,
     "composite": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "paths": {
-      "@static-image-pipeline/*": ["packages/static-image-pipeline/src/*"],
+      "@pipeline/*": ["packages/static-image-pipeline/src/*"],
       "@react-static-images/*": ["packages/react-static-images/src/*"]
     }
   }

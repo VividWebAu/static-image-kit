@@ -13,6 +13,7 @@ export async function generateBlur(
   imagePath: string,
   config?: BlurConfig
 ): Promise<Buffer> {
-  // TODO: Implement blur generation (resize to small size, high compression)
-  throw new Error('Not implemented');
+  console.log(`[generateBlur] Processing: ${imagePath}`, config);
+  // TODO: Implement blur generation using sharp (resize to small size, high compression)
+  throw new Error('generateBlur not implemented yet');
 }

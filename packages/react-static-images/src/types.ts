@@ -16,3 +16,19 @@ export interface ImageStaticConfig {
   enableClustering?: boolean;
   responsiveSizes?: number[];
 }
+
+export interface BlurPlaceholder {
+  /**
+   * Base64-encoded blur image data
+   */
+  data: string;
+  width: number;
+  height: number;
+}
+
+export interface ResponsiveImage {
+  src: string;
+  srcSet: string;
+  sizes?: string;
+}
+

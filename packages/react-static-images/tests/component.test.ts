@@ -2,9 +2,20 @@
  * Test suite: React component functionality
  */
 
-async function test_component() {
-  // TODO: Write component tests
-  console.log('Component tests placeholder');
+import { ImageStatic, type ImageStaticProps } from '../src/ImageStatic.js';
+
+async function testImageStaticComponent() {
+  console.log('[TEST] ImageStatic component');
+  try {
+    // TODO: Test component rendering with React Testing Library
+    console.log('[TEST] Component tests pending - use React Testing Library');
+  } catch (err) {
+    console.error('[TEST] Error:', err);
+  }
 }
 
-test_component().catch(console.error);
+async function runTests() {
+  await testImageStaticComponent();
+}
+
+runTests().catch(console.error);

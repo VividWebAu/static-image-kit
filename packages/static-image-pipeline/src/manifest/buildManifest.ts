@@ -25,6 +25,10 @@ export async function buildManifest(
   imagePaths: string[],
   outputPath?: string
 ): Promise<Manifest> {
+  console.log(`[buildManifest] Building manifest for ${imagePaths.length} images`);
+  if (outputPath) {
+    console.log(`[buildManifest] Output path: ${outputPath}`);
+  }
   // TODO: Implement manifest building from processed images
-  throw new Error('Not implemented');
+  throw new Error('buildManifest not implemented yet');
 }

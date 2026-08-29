@@ -10,11 +10,10 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "interactive": true
+      "dependsOn": ["^dev"]
     },
     "lint": {
-      "cache": false,
-      "outputs": ["lint.log"]
+      "cache": false
     },
     "test": {
       "cache": false,

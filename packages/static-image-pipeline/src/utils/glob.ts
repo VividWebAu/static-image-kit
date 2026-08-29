@@ -7,8 +7,9 @@ export async function globFiles(
   pattern: string,
   baseDir?: string
 ): Promise<string[]> {
-  // TODO: Implement glob pattern matching
-  throw new Error('Not implemented');
+  console.log(`[glob.globFiles] Pattern: ${pattern}`, baseDir ? `in ${baseDir}` : '');
+  // TODO: Implement glob pattern matching using fast-glob
+  throw new Error('globFiles not implemented yet');
 }
 
 export function isImageFile(filePath: string): boolean {

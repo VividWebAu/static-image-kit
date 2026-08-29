@@ -5,7 +5,7 @@
  * Provides optimized image rendering with blur-up, clustering, and responsive loading
  */
 
-import type { ImageEntry } from '@static-image-pipeline/manifest/buildManifest.js';
+import type { CSSProperties } from 'react';
 
 export interface ImageStaticProps {
   src: string;
@@ -15,9 +15,10 @@ export interface ImageStaticProps {
   priority?: boolean;
   sizes?: string;
   className?: string;
+  style?: CSSProperties;
 }
 
-export async function ImageStatic({
+export function ImageStatic({
   src,
   alt,
   width,
@@ -25,8 +26,12 @@ export async function ImageStatic({
   priority = false,
   sizes,
   className,
+  style,
 }: ImageStaticProps) {
-  // TODO: Implement RSC with blur-up, clustering integration
+  // TODO: Implement blur-up preview with dominant color
+  // TODO: Implement clustering integration for content-aware loading
+  // TODO: Implement responsive srcset generation
+
   return (
     <img
       src={src}
@@ -35,7 +40,9 @@ export async function ImageStatic({
       height={height}
       sizes={sizes}
       className={className}
+      style={style}
       loading={priority ? 'eager' : 'lazy'}
+      decoding="async"
     />
   );
 }

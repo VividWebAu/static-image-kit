@@ -4,6 +4,7 @@
  */
 
 import { createHash } from 'crypto';
+import { promises as fs } from 'fs';
 
 export function hashContent(content: Buffer | string): string {
   const hash = createHash('sha256');
@@ -12,6 +13,7 @@ export function hashContent(content: Buffer | string): string {
 }
 
 export async function hashFile(filePath: string): Promise<string> {
-  // TODO: Implement file hashing
-  throw new Error('Not implemented');
+  console.log(`[hashing.hashFile] Hashing: ${filePath}`);
+  const content = await fs.readFile(filePath);
+  return hashContent(content);
 }

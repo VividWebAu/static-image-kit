@@ -12,6 +12,7 @@ export async function extractFeatures(
   imagePath: string,
   method?: string
 ): Promise<number[]> {
+  console.log(`[extractFeatures] Processing: ${imagePath} with method: ${method ?? 'histogram'}`);
   // TODO: Implement feature extraction (histogram, edge detection, etc.)
-  throw new Error('Not implemented');
+  throw new Error('extractFeatures not implemented yet');
 }

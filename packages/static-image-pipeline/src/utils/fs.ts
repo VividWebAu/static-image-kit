@@ -6,13 +6,12 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 export async function readDirectory(dirPath: string): Promise<string[]> {
-  // TODO: Implement directory reading
+  console.log(`[fs.readDirectory] Reading: ${dirPath}`);
   const entries = await fs.readdir(dirPath);
   return entries;
 }
 
 export async function fileExists(filePath: string): Promise<boolean> {
-  // TODO: Implement file existence check
   try {
     await fs.access(filePath);
     return true;
@@ -22,6 +21,17 @@ export async function fileExists(filePath: string): Promise<boolean> {
 }
 
 export async function ensureDirectory(dirPath: string): Promise<void> {
-  // TODO: Implement directory creation
+  console.log(`[fs.ensureDirectory] Creating: ${dirPath}`);
   await fs.mkdir(dirPath, { recursive: true });
+}
+
+export async function readFile(filePath: string): Promise<Buffer> {
+  return fs.readFile(filePath);
+}
+
+export async function writeFile(
+  filePath: string,
+  content: string | Buffer
+): Promise<void> {
+  await fs.writeFile(filePath, content);
 }
