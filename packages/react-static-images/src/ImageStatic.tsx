@@ -6,6 +6,7 @@
  */
 
 import type { CSSProperties } from 'react';
+import { generateSrcSet } from './utils.js';
 
 export interface ImageStaticProps {
   src: string;
@@ -16,6 +17,9 @@ export interface ImageStaticProps {
   sizes?: string;
   className?: string;
   style?: CSSProperties;
+  blurDataURL?: string;
+  dominantColor?: string;
+  variants?: Array<{ width: number; src: string }>;
 }
 
 export function ImageStatic({
@@ -27,23 +31,66 @@ export function ImageStatic({
   sizes,
   className,
   style,
+  blurDataURL,
+  dominantColor,
+  variants = [],
 }: ImageStaticProps) {
-  // TODO: Implement blur-up preview with dominant color
-  // TODO: Implement clustering integration for content-aware loading
-  // TODO: Implement responsive srcset generation
+  // Generate srcset from variants
+  const srcSet = generateSrcSet(variants);
+
+  // Build styles for blur prevention and dominant color
+  const containerStyle: CSSProperties = {
+    position: 'relative',
+    overflow: 'hidden',
+    backgroundColor: dominantColor || '#f5f5f5',
+    ...style,
+  };
+
+  // Aspect ratio container to prevent layout shift
+  const aspectRatio = width && height ? width / height : 1.33;
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      sizes={sizes}
-      className={className}
-      style={style}
-      loading={priority ? 'eager' : 'lazy'}
-      decoding="async"
-    />
+    <div
+      style={{
+        position: 'relative',
+        paddingBottom: `${(1 / aspectRatio) * 100}%`,
+        ...containerStyle,
+      }}
+    >
+      <picture
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        {variants.length > 0 && (
+          <>
+            <source media="(min-width: 1920px)" srcSet={srcSet} />
+            <source media="(min-width: 1024px)" srcSet={srcSet} />
+            <source media="(min-width: 640px)" srcSet={srcSet} />
+          </>
+        )}
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          sizes={sizes}
+          className={className}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
+      </picture>
+    </div>
   );
 }
 

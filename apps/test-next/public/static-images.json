@@ -1,6 +1,37 @@
 {
   "version": "1.0.0",
   "generated": "2026-08-29T00:00:00Z",
-  "images": [],
-  "clusters": {}
+  "images": [
+    {
+      "id": "img-placeholder-1",
+      "src": "/test-images/placeholder-1.jpg",
+      "width": 800,
+      "height": 600,
+      "aspectRatio": 1.3333,
+      "blurDataURL": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iI2VlZWVlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjI0IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+UGxhY2Vob2xkZXIgSW1hZ2UgMTwvdGV4dD48L3N2Zz4=",
+      "dominantColor": "#eeeeee",
+      "variants": [
+        { "width": 640, "src": "/test-images/640w/placeholder-1.jpg" },
+        { "width": 1024, "src": "/test-images/1024w/placeholder-1.jpg" },
+        { "width": 1920, "src": "/test-images/1920w/placeholder-1.jpg" }
+      ]
+    },
+    {
+      "id": "img-placeholder-2",
+      "src": "/test-images/placeholder-2.jpg",
+      "width": 1200,
+      "height": 800,
+      "aspectRatio": 1.5,
+      "blurDataURL": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI4MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSIjZmZlZGNlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5QbGFjZWhvbGRlciBJbWFnZSAyPC90ZXh0Pjwvc3ZnPg==",
+      "dominantColor": "#ffedce",
+      "variants": [
+        { "width": 640, "src": "/test-images/640w/placeholder-2.jpg" },
+        { "width": 1024, "src": "/test-images/1024w/placeholder-2.jpg" },
+        { "width": 1920, "src": "/test-images/1920w/placeholder-2.jpg" }
+      ]
+    }
+  ],
+  "clusters": {
+    "0": ["img-placeholder-1", "img-placeholder-2"]
+  }
 }

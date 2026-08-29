@@ -1,10 +1,20 @@
 import Link from 'next/link';
-import { ImageStatic } from 'react-static-images';
+import { ImageStatic } from '@vividweb/react-static-images';
+import path from 'path';
+import { readFileSync } from 'fs';
+
+// Load manifest from public folder
+const manifestPath = path.join(process.cwd(), 'public/static-images.json');
+const manifestData = JSON.parse(readFileSync(manifestPath, 'utf-8'));
 
 export default function BlurUpDemo() {
+  const image = manifestData.images[0];
+
   return (
     <main style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <Link href="/">← Back to Home</Link>
+      <Link href="/" style={{ textDecoration: 'underline' }}>
+        ← Back to Home
+      </Link>
       <h1>Blur-up Demo</h1>
       <p>Blur-up image loading technique with low-quality placeholders.</p>
       <p>
@@ -22,7 +32,22 @@ export default function BlurUpDemo() {
       </section>
       <section>
         <h2>Demo Images:</h2>
-        <p>(Image components will be added once pipeline generates manifest)</p>
+        {image && (
+          <div style={{ marginTop: '1rem', maxWidth: '600px' }}>
+            <ImageStatic
+              src={image.src}
+              alt={image.id}
+              width={image.width}
+              height={image.height}
+              blurDataURL={image.blurDataURL}
+              dominantColor={image.dominantColor}
+              priority
+            />
+            <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#666' }}>
+              Image uses data URL blur placeholder
+            </p>
+          </div>
+        )}
       </section>
     </main>
   );

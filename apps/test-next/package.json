@@ -10,10 +10,10 @@
     "test": "echo \"Tests not yet configured\" || true"
   },
   "dependencies": {
+    "@vividweb/react-static-images": "workspace:*",
     "next": "^15.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-static-images": "workspace:*"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

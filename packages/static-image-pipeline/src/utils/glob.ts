@@ -3,13 +3,26 @@
  * File matching with glob patterns
  */
 
+import { globSync } from 'fast-glob';
+import path from 'path';
+
 export async function globFiles(
   pattern: string,
   baseDir?: string
 ): Promise<string[]> {
   console.log(`[glob.globFiles] Pattern: ${pattern}`, baseDir ? `in ${baseDir}` : '');
-  // TODO: Implement glob pattern matching using fast-glob
-  throw new Error('globFiles not implemented yet');
+  
+  try {
+    const files = globSync(pattern, {
+      cwd: baseDir,
+      absolute: false,
+    });
+    
+    return files.map((file) => (baseDir ? path.join(baseDir, file) : file));
+  } catch (error) {
+    console.error('[glob.globFiles] Error:', error);
+    return [];
+  }
 }
 
 export function isImageFile(filePath: string): boolean {

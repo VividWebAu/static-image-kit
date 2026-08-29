@@ -14,4 +14,4 @@ export type { ClusterResult } from './clustering/clusterBlurs.js';
 export type { FeatureVector } from './clustering/extractFeatures.js';
 
 export { buildManifest } from './manifest/buildManifest.js';
-export type { Manifest, ImageEntry } from './manifest/buildManifest.js';
+export type { Manifest, ImageEntry, ImageVariant } from './manifest/buildManifest.js';

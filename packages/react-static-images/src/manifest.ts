@@ -2,35 +2,69 @@
  * Manifest loading and management
  */
 
-export interface ManifestData {
-  version: string;
-  generated: string;
-  images: Array<{
-    id: string;
-    src: string;
-    width: number;
-    height: number;
-    aspectRatio: number;
-    blur?: string;
-    dominantColor?: string;
-    cluster?: number;
-  }>;
-  clusters?: Record<number, string[]>;
-}
+import type { ManifestData, ImageEntry } from './types.js';
 
-export async function loadManifest(manifestPath: string): Promise<ManifestData> {
-  console.log(`[loadManifest] Loading from: ${manifestPath}`);
-  // TODO: Implement manifest loading from JSON file or URL
-  throw new Error('loadManifest not implemented yet');
+export type { ManifestData, ImageEntry };
+
+/**
+ * Load and cache manifest data
+ * In a real implementation, this would fetch from a URL or import from a file
+ */
+let cachedManifest: ManifestData | null = null;
+
+export async function loadManifest(
+  manifestPath: string | ManifestData
+): Promise<ManifestData> {
+  console.log('[loadManifest] Loading manifest');
+
+  // If already an object, return it
+  if (typeof manifestPath === 'object') {
+    cachedManifest = manifestPath;
+    return manifestPath;
+  }
+
+  // If cached, return cached version
+  if (cachedManifest) {
+    return cachedManifest;
+  }
+
+  try {
+    // Attempt to import/load the manifest
+    // In a real Next.js app, this would use require() or import()
+    console.log(`[loadManifest] Loading from: ${manifestPath}`);
+
+    // For now, return a placeholder
+    const manifest: ManifestData = {
+      version: '1.0.0',
+      generated: new Date().toISOString(),
+      images: [],
+      clusters: {},
+    };
+
+    cachedManifest = manifest;
+    return manifest;
+  } catch (error) {
+    console.error('[loadManifest] Error loading manifest:', error);
+    throw error;
+  }
 }
 
 export function getImageBySource(
   manifest: ManifestData,
   src: string
-): ManifestData['images'][0] | undefined {
+): ImageEntry | undefined {
   console.log(`[getImageBySource] Finding image: ${src}`);
-  // TODO: Implement image lookup by source path
-  return undefined;
+  const found = manifest.images.find((img) => img.src === src);
+  return found;
+}
+
+export function getImageById(
+  manifest: ManifestData,
+  id: string
+): ImageEntry | undefined {
+  console.log(`[getImageById] Finding image: ${id}`);
+  const found = manifest.images.find((img) => img.id === id);
+  return found;
 }
 
 export function getImageCluster(
@@ -38,6 +72,17 @@ export function getImageCluster(
   imageId: string
 ): string[] | undefined {
   console.log(`[getImageCluster] Finding cluster for: ${imageId}`);
-  // TODO: Return cluster members for given image
+
+  if (!manifest.clusters) {
+    return undefined;
+  }
+
+  // Find which cluster contains this image
+  for (const [clusterId, members] of Object.entries(manifest.clusters)) {
+    if (members.includes(imageId)) {
+      return members;
+    }
+  }
+
   return undefined;
 }

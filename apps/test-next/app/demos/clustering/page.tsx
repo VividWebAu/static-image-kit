@@ -1,10 +1,18 @@
 import Link from 'next/link';
-import { ImageStatic } from 'react-static-images';
+import { ImageStatic } from '@vividweb/react-static-images';
+import path from 'path';
+import { readFileSync } from 'fs';
+
+// Load manifest from public folder
+const manifestPath = path.join(process.cwd(), 'public/static-images.json');
+const manifestData = JSON.parse(readFileSync(manifestPath, 'utf-8'));
 
 export default function ClusteringDemo() {
   return (
     <main style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <Link href="/">← Back to Home</Link>
+      <Link href="/" style={{ textDecoration: 'underline' }}>
+        ← Back to Home
+      </Link>
       <h1>Clustering Demo</h1>
       <p>Color clustering for intelligent image preloading.</p>
       <p>
@@ -22,7 +30,38 @@ export default function ClusteringDemo() {
       </section>
       <section>
         <h2>Cluster Visualization:</h2>
-        <p>(Cluster data will be populated from pipeline manifest)</p>
+        {manifestData.clusters && Object.keys(manifestData.clusters).length > 0 ? (
+          <div>
+            {Object.entries(manifestData.clusters).map(([clusterId, imageIds]: [string, unknown]) => {
+              const ids = imageIds as string[];
+              return (
+                <div key={clusterId} style={{ marginTop: '1rem' }}>
+                  <h3>Cluster {clusterId}</h3>
+                  <p>Contains {ids.length} images</p>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                    {ids
+                      .map((id: string) => manifestData.images.find((img: any) => img.id === id))
+                      .filter(Boolean)
+                      .map((image: any) => (
+                        <div key={image!.id}>
+                          <ImageStatic
+                            src={image!.src}
+                            alt={image!.id}
+                            width={200}
+                            height={150}
+                            blurDataURL={image!.blurDataURL}
+                            dominantColor={image!.dominantColor}
+                          />
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <p>No cluster data available</p>
+        )}
       </section>
     </main>
   );
