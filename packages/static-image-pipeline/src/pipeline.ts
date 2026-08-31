@@ -9,6 +9,7 @@ import { writeFile, ensureDirectory } from './utils/fs.js';
 import path from 'path';
 import sharp from 'sharp';
 import { hashFileShort } from './utils/hashing.js';
+import { promises as fs } from 'fs';
 
 export interface PipelineOptions extends ManifestOptions {
   writeVariants?: boolean;
@@ -90,7 +91,6 @@ export async function generateVariants(
     const originalWidth = metadata.width || 1000;
 
     // Copy original file
-    const fs = require('fs').promises;
     const outputPath = path.join(variantDir, fileName);
     await fs.copyFile(imagePath, outputPath);
     console.log(`[Pipeline] Copied original: ${fileName}`);
