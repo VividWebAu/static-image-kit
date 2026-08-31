@@ -1,8 +1,10 @@
-'use client';
-
 /**
- * React Server Component for static images
+ * Pure React Server Component for static images
  * Provides optimized image rendering with blur-up, clustering, and responsive loading
+ *
+ * This is a framework-agnostic RSC component with ZERO client-side JavaScript.
+ * All image processing happens at build time via the static-image-pipeline.
+ * The component renders pure HTML with semantic <picture> and <img> elements.
  */
 
 import type { CSSProperties } from 'react';

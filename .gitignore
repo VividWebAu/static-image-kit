@@ -48,6 +48,20 @@ Thumbs.db
 *.swp
 
 # ============================================================
+# Static Image Pipeline - Generated Assets
+# ============================================================
+# Processed images (resized variants, format conversions)
+# MUST NOT be committed - regenerated at build time
+apps/test-next/public/images/
+apps/test-next/public/static-images.json
+
+# Temporary manifest files from pipeline runs
+*.manifest.tmp
+*.manifest.json.tmp
+
+# NOTE: Original test images (apps/test-next/public/test-images/)
+# ARE committed as the source of truth for visual testing.
+# Only processed outputs are gitignored.
 # Test artifacts
 # ============================================================
 coverage/

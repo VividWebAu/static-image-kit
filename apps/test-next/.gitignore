@@ -1,0 +1,23 @@
+# ============================================================
+# Test app specific gitignore
+# Generated/processed assets MUST NOT be committed
+# ============================================================
+
+# Processed image variants (resized, format-converted)
+# These are generated at build time
+public/images/
+
+# Generated manifest
+# Consumers choose whether to commit their own manifest
+public/static-images.json
+
+# Next.js build artifacts
+.next/
+out/
+
+# ============================================================
+# NOTE: Original source images
+# ============================================================
+# public/test-images/ is the source of truth for visual tests
+# and IS committed to Git. Only the PROCESSED outputs above
+# are gitignored.

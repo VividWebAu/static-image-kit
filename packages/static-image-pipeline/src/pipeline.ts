@@ -10,6 +10,13 @@ import path from 'path';
 import sharp from 'sharp';
 import { hashFileShort } from './utils/hashing.js';
 import { promises as fs } from 'fs';
+import { access } from 'fs/promises';
+
+// Type for readdir with types
+interface DirEnt {
+  name: string;
+  isDirectory(): boolean;
+}
 
 export interface PipelineOptions extends ManifestOptions {
   writeVariants?: boolean;
@@ -63,6 +70,53 @@ export async function runPipeline(
 }
 
 /**
+ * Clean up stale processed images before regenerating
+ * Ensures no orphaned files from deleted or moved originals
+ */
+export async function cleanupStaleImages(outputDir: string): Promise<void> {
+  try {
+    if (!(await fileExists(outputDir))) {
+      return; // Nothing to clean up
+    }
+
+    console.log('[Pipeline] Cleaning up previous variants...');
+    const entries = await readDir(outputDir);
+
+    for (const entry of entries) {
+      const fullPath = path.join(outputDir, entry);
+      const stat = await fs.stat(fullPath);
+      if (stat.isDirectory()) {
+        // Remove hash directories (old variant folders)
+        await fs.rm(fullPath, { recursive: true, force: true });
+        console.log(`[Pipeline] Removed stale directory: ${entry}`);
+      }
+    }
+  } catch (error) {
+    console.warn('[Pipeline] Warning during cleanup:', error);
+    // Don't fail if cleanup has issues, just warn
+  }
+}
+
+interface DirEntry {
+  name: string;
+}
+
+async function readDir(dirPath: string): Promise<string[]> {
+  return (await fs.readdir(dirPath, { withFileTypes: true })).map(
+    (entry: DirEntry) => entry.name
+  );
+}
+
+async function fileExists(filePath: string): Promise<boolean> {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Generate responsive image variants
  */
 export async function generateVariants(
@@ -75,6 +129,9 @@ export async function generateVariants(
   const outputDir = options.outputDir!;
 
   console.log('[Pipeline] Generating responsive variants');
+
+  // Clean up stale images before generating new ones
+  await cleanupStaleImages(outputDir);
 
   for (const imagePath of imagePaths) {
     const fileName = path.basename(imagePath);
