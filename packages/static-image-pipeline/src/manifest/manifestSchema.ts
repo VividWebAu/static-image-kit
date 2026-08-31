@@ -12,6 +12,8 @@ export type { Manifest, ImageEntry, ImageVariant };
 export const ImageVariantSchema = z.object({
   width: z.number().positive(),
   src: z.string(),
+  format: z.string().optional(),
+  filename: z.string().optional(),
 });
 
 export const ImageEntrySchema = z.object({

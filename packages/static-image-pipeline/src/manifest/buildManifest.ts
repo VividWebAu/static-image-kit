@@ -4,11 +4,15 @@
  */
 
 import path from 'path';
-import { hashFile } from '../utils/hashing.js';
+import { hashFileShort } from '../utils/hashing.js';
+import { extractMetadata } from '../metadata/extractMetadata.js';
+import { generateBlurDataURL } from '../blur/generateBlur.js';
 
 export interface ImageVariant {
   width: number;
   src: string;
+  format: string;
+  filename: string;
 }
 
 export interface ImageEntry {
@@ -31,39 +35,76 @@ export interface Manifest {
   clusters?: Record<number, string[]>;
 }
 
+export interface ManifestOptions {
+  widths?: number[];
+  formats?: string[];
+  baseOutputDir?: string;
+}
+
+/**
+ * Build manifest with real image metadata and variants
+ */
 export async function buildManifest(
   imagePaths: string[],
-  inputDir?: string
+  inputDir?: string,
+  options?: ManifestOptions
 ): Promise<Manifest> {
   console.log(`[buildManifest] Building manifest for ${imagePaths.length} images`);
+  
+  const widths = options?.widths ?? [320, 640, 960, 1280];
+  const formats = options?.formats ?? ['webp', 'jpeg'];
   
   const images: ImageEntry[] = [];
 
   for (let i = 0; i < imagePaths.length; i++) {
     const imagePath = imagePaths[i];
     const fileName = path.basename(imagePath);
-    const relativePath = inputDir ? path.relative(inputDir, imagePath) : imagePath;
+    const fileNameWithoutExt = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+    const relativePath = inputDir ? path.relative(inputDir, imagePath).replace(/\\/g, '/') : imagePath.replace(/\\/g, '/');
     
-    // Generate placeholder image hash for unique ID
-    const hash = await hashFile(imagePath);
-    const id = `img-${hash.substring(0, 8)}`;
+    try {
+      // Extract real metadata
+      const metadata = await extractMetadata(imagePath);
+      const hash = await hashFileShort(imagePath);
+      const id = `img-${hash}`;
+      
+      // Generate blur placeholder
+      const blurDataURL = await generateBlurDataURL(imagePath);
+      
+      // Generate responsive variants
+      const variants: ImageVariant[] = [];
+      for (const width of widths) {
+        // Only generate variants for widths smaller than original
+        if (width < metadata.width) {
+          for (const format of formats) {
+            const variantFileName = `${fileNameWithoutExt}-${width}w.${format}`;
+            const variantSrc = `/images/${hash}/${variantFileName}`;
+            variants.push({
+              width,
+              format,
+              src: variantSrc,
+              filename: variantFileName,
+            });
+          }
+        }
+      }
 
-    const entry: ImageEntry = {
-      id,
-      src: `/test-images/${relativePath.replace(/\\/g, '/')}`,
-      width: 800,
-      height: 600,
-      aspectRatio: 800 / 600,
-      blurDataURL: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmNWY1ZjUiLz48L3N2Zz4=',
-      dominantColor: '#f5f5f5',
-      variants: [
-        { width: 640, src: `/test-images/640w/${relativePath.replace(/\\/g, '/')}` },
-        { width: 1024, src: `/test-images/1024w/${relativePath.replace(/\\/g, '/')}` },
-        { width: 1920, src: `/test-images/1920w/${relativePath.replace(/\\/g, '/')}` },
-      ],
-    };
+      const entry: ImageEntry = {
+        id,
+        src: `/images/${hash}/${fileName}`,
+        width: metadata.width,
+        height: metadata.height,
+        aspectRatio: metadata.aspectRatio,
+        blurDataURL,
+        variants,
+      };
 
-    images.push(entry);
+      images.push(entry);
+      console.log(`[buildManifest] Processed ${fileName} (${metadata.width}x${metadata.height})`);
+    } catch (error) {
+      console.error(`[buildManifest] Error processing ${imagePath}:`, error);
+      // Continue processing other images
+    }
   }
 
   const manifest: Manifest = {

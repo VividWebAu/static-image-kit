@@ -17,3 +17,12 @@ export async function hashFile(filePath: string): Promise<string> {
   const content = await fs.readFile(filePath);
   return hashContent(content);
 }
+
+/**
+ * Generate a short hash suitable for use in filenames
+ * Takes first 8 chars of SHA256 hash for brevity
+ */
+export async function hashFileShort(filePath: string): Promise<string> {
+  const fullHash = await hashFile(filePath);
+  return fullHash.substring(0, 8);
+}

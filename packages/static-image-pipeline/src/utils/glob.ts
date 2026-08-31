@@ -3,7 +3,7 @@
  * File matching with glob patterns
  */
 
-import { globSync } from 'fast-glob';
+import fg from 'fast-glob';
 import path from 'path';
 
 export async function globFiles(
@@ -13,7 +13,7 @@ export async function globFiles(
   console.log(`[glob.globFiles] Pattern: ${pattern}`, baseDir ? `in ${baseDir}` : '');
   
   try {
-    const files = globSync(pattern, {
+    const files = await fg(pattern, {
       cwd: baseDir,
       absolute: false,
     });
