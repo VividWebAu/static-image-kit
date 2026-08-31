@@ -4,7 +4,7 @@
  * Processes test images and generates manifest.json
  */
 
-import { runPipeline } from '@vividweb/static-image-pipeline';
+import { runPipeline } from '@vividwebau/static-image-pipeline';
 import path from 'path';
 import { fileURLToPath } from 'url';
 

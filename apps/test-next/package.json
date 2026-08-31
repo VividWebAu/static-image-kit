@@ -11,8 +11,8 @@
     "test": "echo \"Tests not yet configured\" || true"
   },
   "dependencies": {
-    "@vividweb/react-static-images": "workspace:*",
-    "@vividweb/static-image-pipeline": "workspace:*",
+    "@vividwebau/react-static-images": "workspace:*",
+    "@vividwebau/static-image-pipeline": "workspace:*",
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

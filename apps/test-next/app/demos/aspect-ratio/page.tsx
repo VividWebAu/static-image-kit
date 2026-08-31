@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ImageStatic, generatePaddingBottom } from '@vividweb/react-static-images';
+import { ImageStatic, generatePaddingBottom } from '@vividwebau/react-static-images';
 import path from 'path';
 import { readFileSync } from 'fs';
 

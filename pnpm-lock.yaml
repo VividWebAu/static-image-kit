@@ -29,10 +29,10 @@ importers:
 
   apps/test-next:
     dependencies:
-      '@vividweb/react-static-images':
+      '@vividwebau/react-static-images':
         specifier: workspace:*
         version: link:../../packages/react-static-images
-      '@vividweb/static-image-pipeline':
+      '@vividwebau/static-image-pipeline':
         specifier: workspace:*
         version: link:../../packages/static-image-pipeline
       next:

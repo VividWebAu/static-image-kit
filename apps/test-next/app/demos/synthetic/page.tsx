@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ImageStatic } from '@vividweb/react-static-images';
+import { ImageStatic } from '@vividwebau/react-static-images';
 import path from 'path';
 import { readFileSync } from 'fs';
 

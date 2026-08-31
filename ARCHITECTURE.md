@@ -123,7 +123,7 @@ When the pipeline runs:
 
 Two packages + one test app:
 
-### 1. @vividweb/static-image-pipeline (packages/static-image-pipeline)
+### 1. @vividwebau/static-image-pipeline (packages/static-image-pipeline)
 
 **Responsibility**: Build-time image processing
 
@@ -137,7 +137,7 @@ Two packages + one test app:
 - Manifest JSON
 - Resized image variants (if `--write-variants`)
 
-### 2. @vividweb/react-static-images (packages/react-static-images)
+### 2. @vividwebau/react-static-images (packages/react-static-images)
 
 **Responsibility**: Runtime rendering (React Server Component only)
 
@@ -193,7 +193,7 @@ async function runPipeline(
 ### CLI Options
 
 ```bash
-npx @vividweb/static-image-pipeline run \
+npx @vividwebau/static-image-pipeline run \
   --input ./images \
   --output ./dist/manifest.json \
   --widths 320,640,960,1280 \

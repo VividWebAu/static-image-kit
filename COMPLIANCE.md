@@ -18,8 +18,8 @@ This document verifies that the implementation meets all requirements from the s
 ## ✅ MONOREPO STRUCTURE
 
 - [x] Two packages:
-  - [x] @vividweb/static-image-pipeline (build-time)
-  - [x] @vividweb/react-static-images (runtime RSC)
+  - [x] @vividwebau/static-image-pipeline (build-time)
+  - [x] @vividwebau/react-static-images (runtime RSC)
 - [x] One test app:
   - [x] apps/test-next (Next.js RSC playground)
 - [x] Manifest NOT stored at repo root
@@ -236,8 +236,8 @@ From attachment "Image Source of Truth & Gitignore Requirements":
 ## ✅ VERIFICATION
 
 ### TypeScript Compilation
-- [x] @vividweb/static-image-pipeline - Builds without errors
-- [x] @vividweb/react-static-images - Builds without errors
+- [x] @vividwebau/static-image-pipeline - Builds without errors
+- [x] @vividwebau/react-static-images - Builds without errors
 - [x] test-next - No compilation errors
 
 ### Runtime Testing

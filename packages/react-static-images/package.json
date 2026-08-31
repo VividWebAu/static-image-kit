@@ -1,5 +1,5 @@
 {
-  "name": "@vividweb/react-static-images",
+  "name": "@vividwebau/react-static-images",
   "version": "0.1.0",
   "description": "React Server Component for static image optimization",
   "type": "module",

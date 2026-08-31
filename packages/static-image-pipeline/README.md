@@ -1,4 +1,4 @@
-# @vividweb/static-image-pipeline
+# @vividwebau/static-image-pipeline
 
 A **build-time-only** image processing pipeline that generates all static assets required for responsive images with zero runtime overhead.
 
@@ -48,7 +48,7 @@ your-project/
 ### Basic manifest generation
 
 ```bash
-npx @vividweb/static-image-pipeline run \
+npx @vividwebau/static-image-pipeline run \
   --input ./images-original \
   --output ./dist/manifest.json
 ```
@@ -56,7 +56,7 @@ npx @vividweb/static-image-pipeline run \
 ### With responsive variants
 
 ```bash
-npx @vividweb/static-image-pipeline run \
+npx @vividwebau/static-image-pipeline run \
   --input ./images-original \
   --output ./dist/manifest.json \
   --write-variants \
@@ -68,7 +68,7 @@ npx @vividweb/static-image-pipeline run \
 ### Custom configuration
 
 ```bash
-npx @vividweb/static-image-pipeline run \
+npx @vividwebau/static-image-pipeline run \
   --input ./images \
   --output ./dist/manifest.json \
   --widths 300,600,900,1200,1500 \
@@ -138,7 +138,7 @@ dist/manifest.json     # Generated manifest (optional to commit)
 ## Programmatic Usage
 
 ```javascript
-import { runPipeline } from '@vividweb/static-image-pipeline';
+import { runPipeline } from '@vividwebau/static-image-pipeline';
 
 const manifest = await runPipeline(
   './images-original',
@@ -170,7 +170,7 @@ console.log(`Processed ${manifest.images.length} images`);
 ### In scripts/build-images.js
 
 ```javascript
-import { runPipeline } from '@vividweb/static-image-pipeline';
+import { runPipeline } from '@vividwebau/static-image-pipeline';
 
 await runPipeline(
   './images-original',
@@ -214,7 +214,7 @@ Future versions will support intelligent blur clustering to reduce manifest size
 ## Framework Integration
 
 This package is framework-agnostic. The manifest can be consumed by:
-- React Server Components (via `@vividweb/react-static-images`)
+- React Server Components (via `@vividwebau/react-static-images`)
 - Vue 3 Server Components
 - Svelte Server Components
 - Any JSON-consuming template engine
@@ -236,7 +236,7 @@ This package is framework-agnostic. The manifest can be consumed by:
 Full TypeScript types included for manifest and pipeline options.
 
 ```typescript
-import { runPipeline, type Manifest, type PipelineOptions } from '@vividweb/static-image-pipeline';
+import { runPipeline, type Manifest, type PipelineOptions } from '@vividwebau/static-image-pipeline';
 
 const options: PipelineOptions = {
   widths: [320, 640, 960],

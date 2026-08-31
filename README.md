@@ -10,7 +10,7 @@ Just fast, predictable, static image delivery.
 
 ## Packages
 
-### @vividweb/static-image-pipeline
+### @vividwebau/static-image-pipeline
 A Node-based build pipeline that produces:
 - responsive width variants  
 - AVIF/WebP/JPEG fallbacks  
@@ -20,7 +20,7 @@ A Node-based build pipeline that produces:
 
 This pipeline runs at build time and outputs deterministic, cache‑friendly static assets.
 
-### @vividweb/react-static-images
+### @vividwebau/react-static-images
 A pure server component for React that consumes the pipeline’s manifest and renders:
 - `<picture>` markup with fallbacks  
 - responsive `srcset` + `sizes`  
