@@ -10,9 +10,9 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const testNextDir = path.join(__dirname, '..');
-const testImagesDir = path.join(testNextDir, 'public/test-images');
-const manifestPath = path.join(testNextDir, 'public/static-images.json');
-const outputDir = path.join(testNextDir, 'public/images');
+const testImagesDir = path.join(testNextDir, 'static-images');
+const manifestPath = path.join(testNextDir, 'public/.processed-static-images/manifest.static-images.json');
+const outputDir = path.join(testNextDir, 'public/.processed-static-images');
 
 async function buildManifest() {
   console.log('[build-manifest] Starting manifest generation...');

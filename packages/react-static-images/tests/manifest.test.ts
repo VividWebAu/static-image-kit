@@ -22,7 +22,7 @@ async function testGetImageBySource() {
     images: [
       {
         id: 'img-1',
-        src: '/images/test.jpg',
+        src: '/.processed-static-images/test.jpg',
         width: 800,
         height: 600,
         aspectRatio: 4 / 3,
@@ -32,7 +32,7 @@ async function testGetImageBySource() {
     clusters: {},
   };
 
-  const image = getImageBySource(testManifest, '/images/test.jpg');
+  const image = getImageBySource(testManifest, '/.processed-static-images/test.jpg');
   console.log('[TEST] Found image:', image);
 }
 

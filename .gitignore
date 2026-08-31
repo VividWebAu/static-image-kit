@@ -52,8 +52,7 @@ Thumbs.db
 # ============================================================
 # Processed images (resized variants, format conversions)
 # MUST NOT be committed - regenerated at build time
-apps/test-next/public/images/
-apps/test-next/public/static-images.json
+apps/test-next/public/.processed-static-images/
 
 # Temporary manifest files from pipeline runs
 *.manifest.tmp
@@ -72,7 +71,7 @@ packages/static-image-pipeline/tests/tmp/**
 # Pipeline outputs (consumer-owned)
 # ============================================================
 # Ignore generated manifests unless explicitly committed
-**/static-images.json
+**/manifest.static-images.json
 
 # Ignore generated image variants
 **/generated-images/

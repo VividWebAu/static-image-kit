@@ -78,7 +78,7 @@ export async function buildManifest(
         if (width < metadata.width) {
           for (const format of formats) {
             const variantFileName = `${fileNameWithoutExt}-${width}w.${format}`;
-            const variantSrc = `/images/${hash}/${variantFileName}`;
+            const variantSrc = `/.processed-static-images/${hash}/${variantFileName}`;
             variants.push({
               width,
               format,
@@ -91,7 +91,7 @@ export async function buildManifest(
 
       const entry: ImageEntry = {
         id,
-        src: `/images/${hash}/${fileName}`,
+        src: `/.processed-static-images/${hash}/${fileName}`,
         width: metadata.width,
         height: metadata.height,
         aspectRatio: metadata.aspectRatio,

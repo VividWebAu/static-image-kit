@@ -59,7 +59,7 @@ Next.js 15 test application with RSC support.
 **Features:**
 - Uses React Server Components (RSC)
 - Imports `ImageStatic` component from `react-static-images`
-- Contains static manifest at `public/static-images.json`
+- Contains static manifest at `public/.processed-static-images/manifest.static-images.json`
 
 ## 🚀 Getting Started
 
@@ -131,7 +131,7 @@ pnpm lint
 ### 3. Create Test Images
 
 - [ ] Generate synthetic test images in `tests/synthetic/`
-- [ ] Add real test images to `apps/test-next/public/test-images/`
+- [ ] Add real test images to `apps/test-next/static-images/`
 
 ### 4. Test Integration
 

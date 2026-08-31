@@ -94,7 +94,7 @@ The React package MUST:
 
 The test app MUST:
 
-- [x] 1. Load the manifest from public/static-images.json
+- [x] 1. Load the manifest from public/.processed-static-images/manifest.static-images.json
 - [x] 2. Render images using the React package
 - [x] 3. Provide demo pages:
   - [x] blur-up
@@ -194,10 +194,8 @@ From attachment "Image Source of Truth & Gitignore Requirements":
   - [x] When originals change
   - [x] When originals are removed
 - [x] Processed images output directory gitignored
-  - [x] apps/test-next/public/images/ (added to .gitignore)
-- [x] Manifest file OPTIONAL to commit
-  - [x] apps/test-next/public/static-images.json (added to .gitignore)
-- [x] Synthetic test images committed (are in public/test-images/)
+  - [x] apps/test-next/public/.processed-static-images/ (added to .gitignore)
+- [x] Synthetic test images committed (are in public/static-images/)
 - [x] Temporary test manifests gitignored
 - [x] Pipeline NOT reliant on any committed processed images
   - [x] Always regenerates from source
@@ -250,9 +248,9 @@ From attachment "Image Source of Truth & Gitignore Requirements":
 - [x] Cleanup functionality verified
 
 ### Generated Output
-- [x] 5 test images in public/test-images/
-- [x] 42 variant files in public/images/
-- [x] Manifest with all metadata in public/static-images.json
+- [x] 5 test images in public/static-images/
+- [x] 42 variant files in public/.processed-static-images/
+- [x] Manifest with all metadata in public/.processed-static-images/manifest.static-images.json
 - [x] Base64 blur placeholders inline in manifest
 
 ## Summary

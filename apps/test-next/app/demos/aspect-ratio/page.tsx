@@ -4,7 +4,7 @@ import path from 'path';
 import { readFileSync } from 'fs';
 
 // Load manifest from public folder
-const manifestPath = path.join(process.cwd(), 'public/static-images.json');
+const manifestPath = path.join(process.cwd(), 'public/.processed-static-images/manifest.static-images.json');
 const manifestData = JSON.parse(readFileSync(manifestPath, 'utf-8'));
 
 export default function AspectRatioDemo() {

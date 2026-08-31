@@ -92,22 +92,21 @@ This document describes the architecture, design principles, and specification f
 
 ```
 project-root/
-├── images-original/              ← COMMIT these (source of truth)
+├── static-images/              ← COMMIT these (source of truth)
 │   ├── hero.jpg
 │   ├── gallery-1.png
 │   └── gallery-2.png
 │
-├── dist/images/                  ← NEVER commit (generated, deleted each build)
-│   ├── abc123def/                ← content-addressed hash
-│   │   ├── hero.jpg              ← original (copied)
-│   │   ├── hero-320w.webp        ← generated variant
-│   │   ├── hero-320w.jpeg
-│   │   ├── hero-640w.webp
-│   │   └── hero-640w.jpeg
-│   └── def456ghi/
-│       └── ...
-│
-└── dist/manifest.json            ← generated (optional to commit)
+├── dist/.processed-static-images/                  ← NEVER commit (generated, deleted each build)
+    ├── manifest.static-images.json
+    ├── abc123def/                ← content-addressed hash
+    │   ├── hero.jpg              ← original (copied)
+    │   ├── hero-320w.webp        ← generated variant
+    │   ├── hero-320w.jpeg
+    │   ├── hero-640w.webp
+    │   └── hero-640w.jpeg
+    └── def456ghi/
+        └── ...
 ```
 
 ### Cleanup Strategy
@@ -194,12 +193,12 @@ async function runPipeline(
 
 ```bash
 npx @vividwebau/static-image-pipeline run \
-  --input ./images \
-  --output ./dist/manifest.json \
+  --input ./static-images \
+  --output ./dist/.processed-static-images/manifest.static-images.json \
   --widths 320,640,960,1280 \
   --formats webp,jpeg \
   --write-variants \
-  --output-dir ./dist/images
+  --output-dir ./dist/.processed-static-images
 ```
 
 ### Manifest Structure
@@ -211,7 +210,7 @@ npx @vividwebau/static-image-pipeline run \
   "images": [
     {
       "id": "img-abc12345",
-      "src": "/images/abc12345/hero.jpg",
+      "src": "/.processed-static-images/abc12345/hero.jpg",
       "width": 1920,
       "height": 1080,
       "aspectRatio": 1.7778,
@@ -220,7 +219,7 @@ npx @vividwebau/static-image-pipeline run \
         {
           "width": 320,
           "format": "webp",
-          "src": "/images/abc12345/hero-320w.webp",
+          "src": "/.processed-static-images/abc12345/hero-320w.webp",
           "filename": "hero-320w.webp"
         }
       ]
@@ -298,10 +297,10 @@ interface ImageStaticProps {
 ```html
 <div style="aspect-ratio: 1.78; background: url(data:image/jpeg;base64,...)">
   <picture style="position: absolute; inset: 0">
-    <source media="(min-width: 1920px)" srcset="/images/abc/hero-1280w.webp 1280w" />
-    <source media="(min-width: 1024px)" srcset="/images/abc/hero-960w.webp 960w" />
-    <source media="(min-width: 640px)" srcset="/images/abc/hero-640w.webp 640w" />
-    <img src="/images/abc/hero.jpg" alt="..." loading="lazy" decoding="async" />
+    <source media="(min-width: 1920px)" srcset="/.processed-static-images/abc/hero-1280w.webp 1280w" />
+    <source media="(min-width: 1024px)" srcset="/.processed-static-images/abc/hero-960w.webp 960w" />
+    <source media="(min-width: 640px)" srcset="/.processed-static-images/abc/hero-640w.webp 640w" />
+    <img src="/.processed-static-images/abc/hero.jpg" alt="..." loading="lazy" decoding="async" />
   </picture>
 </div>
 ```
@@ -321,10 +320,7 @@ All browser behavior is native:
 ```gitignore
 # Static Image Pipeline - Generated Assets
 # Processed images (regenerated at build time)
-apps/test-next/public/images/
-
-# Generated manifest (optional to commit)
-apps/test-next/public/static-images.json
+apps/test-next/public/.processed-static-images/
 ```
 
 ### Per-app .gitignore
@@ -333,18 +329,13 @@ In `apps/test-next/.gitignore`:
 
 ```gitignore
 # Processed variants
-public/images/
-
-# Generated manifest
-public/static-images.json
-
-# NOTE: public/test-images/ IS committed as source of truth
+public/.processed-static-images/
 ```
 
 ### Rationale
 
-1. **Originals committed** - `public/test-images/` exists in Git
-2. **Variants ignored** - `public/images/` regenerated each build
+1. **Originals committed** - `public/static-images/` exists in Git
+2. **Variants ignored** - `public/.processed-static-images/` regenerated each build
 3. **Manifest optional** - Up to consumer (test app commits it for demo)
 4. **Clean builds** - Git clone → pnpm install → pnpm build works perfectly
 

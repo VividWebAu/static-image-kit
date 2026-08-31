@@ -25,22 +25,21 @@ For each original image, the pipeline produces:
 
 ```
 your-project/
-├── images-original/              ← COMMIT these (source of truth)
+├── static-images/              ← COMMIT these (source of truth)
 │   ├── hero.jpg
 │   ├── gallery-1.png
 │   └── gallery-2.png
 │
-├── dist/images/                  ← NEVER commit (generated)
-│   ├── abc123def/                ← hash-based directory
-│   │   ├── hero.jpg              ← original (copied)
-│   │   ├── hero-320w.webp
-│   │   ├── hero-320w.jpeg
-│   │   ├── hero-640w.webp
-│   │   └── hero-640w.jpeg
-│   └── def456ghi/
-│       └── ...
-│
-└── dist/manifest.json            ← Generated (optionally committed)
+├── dist/.processed-static-images/                  ← NEVER commit (generated)
+    ├── manifest.static-images.json
+    ├── abc123def/                ← hash-based directory
+    │   ├── hero.jpg              ← original (copied)
+    │   ├── hero-320w.webp
+    │   ├── hero-320w.jpeg
+    │   ├── hero-640w.webp
+    │   └── hero-640w.jpeg
+    └── def456ghi/
+        └── ...
 ```
 
 ## CLI Usage
@@ -97,7 +96,7 @@ npx @vividwebau/static-image-pipeline run \
   "images": [
     {
       "id": "img-abc12345",
-      "src": "/images/abc12345/hero.jpg",
+      "src": "/.processed-static-images/abc12345/hero.jpg",
       "width": 1920,
       "height": 1080,
       "aspectRatio": 1.7778,
@@ -106,13 +105,13 @@ npx @vividwebau/static-image-pipeline run \
         {
           "width": 320,
           "format": "webp",
-          "src": "/images/abc12345/hero-320w.webp",
+          "src": "/.processed-static-images/abc12345/hero-320w.webp",
           "filename": "hero-320w.webp"
         },
         {
           "width": 320,
           "format": "jpeg",
-          "src": "/images/abc12345/hero-320w.jpeg",
+          "src": "/.processed-static-images/abc12345/hero-320w.jpeg",
           "filename": "hero-320w.jpeg"
         }
       ]
@@ -128,8 +127,7 @@ In your `.gitignore`, exclude generated assets:
 
 ```gitignore
 # Static Image Pipeline - Generated Assets
-dist/images/           # Processed variants (regenerated at build time)
-dist/manifest.json     # Generated manifest (optional to commit)
+dist/.processed-static-images/           # Processed variants (regenerated at build time)
 
 # COMMIT original images:
 # images-original/
