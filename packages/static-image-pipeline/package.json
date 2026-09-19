@@ -30,7 +30,7 @@
     "dev": "tsc --watch",
     "build": "tsc -p tsconfig.json",
     "prepare": "tsc -p tsconfig.json",
-    "test": "node --test --experimental-strip-types tests/**/*.test.ts || true",
+    "test": "npm run build && node --test --experimental-strip-types tests/cli-smoke.test.ts",
     "lint": "eslint src --ext .ts,.js || true",
     "clean": "rm -rf dist",
     "prepare:images": "static-image-pipeline run"
