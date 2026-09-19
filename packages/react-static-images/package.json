@@ -5,6 +5,10 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -22,6 +26,7 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc -p tsconfig.json",
+    "prepare": "tsc -p tsconfig.json",
     "test": "node --test dist/**/*.test.js || true",
     "lint": "eslint src --ext .ts,.tsx || true",
     "clean": "rm -rf dist"

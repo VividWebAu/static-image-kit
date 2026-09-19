@@ -1,82 +1,61 @@
 # static-image-kit
 
-A monorepo for VividWeb’s static image pipeline and framework‑agnostic React components.  
-The system generates all responsive image variants at build time and exposes a pure server‑component `<ImageStatic />` that works across all React SSR/RSC frameworks, including Next.js, Remix, Astro, Hydrogen, Gatsby, and more.
+A monorepo for a build-time static image pipeline and a framework-agnostic React server component.
 
-No client JavaScript.  
-No hydration.  
-No runtime transforms.  
+The system generates responsive image variants at build time and exposes a pure server-component `<ImageStatic />` that works well in Next.js and other React SSR/RSC environments.
+
+No client JavaScript.
+No hydration.
+No runtime transforms.
 Just fast, predictable, static image delivery.
+
+## Consumer workflow
+
+The intended package flow for an app consumer is now the validated flow:
+
+```bash
+pnpm add @vividwebau/static-image-pipeline @vividwebau/react-static-images
+npx static-image-pipeline init
+```
+
+Then:
+
+1. add source images under `static-images/`
+2. optionally adjust the generated `.static-image-kit.config.mjs`
+3. run `static-image-pipeline run`
+4. import and render `<ImageStatic />` in the app
+
+This is the standard path for a Next.js app and does not require a custom app-specific manifest script for the normal setup.
 
 ## Packages
 
 ### @vividwebau/static-image-pipeline
 A Node-based build pipeline that produces:
-- responsive width variants  
-- AVIF/WebP/JPEG fallbacks  
-- blur placeholders  
-- hashed filenames  
-- a manifest describing all generated assets  
+- responsive width variants
+- WebP/JPEG output variants
+- blur placeholders
+- hashed filenames
+- a manifest describing all generated assets
 
-This pipeline runs at build time and outputs deterministic, cache‑friendly static assets.
+The pipeline runs at build time and produces deterministic, cache-friendly static assets.
 
 ### @vividwebau/react-static-images
-A pure server component for React that consumes the pipeline’s manifest and renders:
-- `<picture>` markup with fallbacks  
-- responsive `srcset` + `sizes`  
-- native lazy loading (`loading="lazy"`)  
-- CSS-only blur-up placeholders  
-- container-query-friendly sizing  
-- optional preload hints  
-
-Works in:
-- Next.js (App Router)  
-- Remix  
-- Astro  
-- Hydrogen  
-- Gatsby (SSR)  
-- Any React SSR/RSC environment  
-
-No client JS.  
-No hydration.  
-No framework-specific imports.
-
-## Why this ecosystem exists
-
-Modern frameworks increasingly rely on:
-- server components  
-- static asset pipelines  
-- predictable build outputs  
-- zero-runtime image handling  
-
-`static-image-kit` provides a framework‑agnostic, build-time alternative to runtime image optimization.  
-It is ideal for:
-- performance-sensitive sites  
-- static export workflows  
-- multi-framework compatibility  
-- predictable caching  
-- zero client JS environments  
-- design systems that need consistent image behavior  
+A pure server component for React that consumes the pipeline manifest and renders:
+- `<picture>` markup with fallbacks
+- responsive `srcset` + `sizes`
+- native lazy loading
+- CSS blur-up placeholders
+- static asset output compatible with SSR and RSC
 
 ## How it works
 
-1. Pipeline runs at build time  
-   Generates all variants + manifest.
-
-2. React component consumes manifest  
-   Renders `<picture>` with responsive rules.
-
-3. Browser chooses correct variant  
-   Based on viewport, DPR, container queries.
-
-No runtime transforms.  
-No client-side observers.  
-No hydration cost.
+1. The pipeline runs during the build and generates variants plus a manifest.
+2. The React component consumes that manifest and renders the correct static image source.
+3. The browser receives static, cacheable output without runtime image processing.
 
 ## Status
 
-All packages currently contain placeholder implementations.  
-Full pipeline + component logic will be added in future releases.
+The repo now contains a working package-level flow and a validated sample integration in the Next.js demo app.
 
 ## Website
 

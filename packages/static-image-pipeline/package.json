@@ -5,6 +5,10 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -25,9 +29,11 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc -p tsconfig.json",
-    "test": "node --test dist/**/*.test.js || true",
+    "prepare": "tsc -p tsconfig.json",
+    "test": "node --test --experimental-strip-types tests/**/*.test.ts || true",
     "lint": "eslint src --ext .ts,.js || true",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepare:images": "static-image-pipeline run"
   },
   "dependencies": {
     "fast-glob": "^3.3.2",
@@ -41,4 +47,3 @@
     "typescript": "^5.3.0"
   }
 }
-

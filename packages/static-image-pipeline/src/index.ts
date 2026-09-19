@@ -2,6 +2,14 @@
  * Export all public APIs from pipeline package
  */
 
+export {
+  DEFAULT_STATIC_IMAGE_CONFIG,
+  resolvePipelineConfig,
+  initializeStaticImageProject,
+  applyDefaultPackageScript,
+} from './config.js';
+export type { StaticImagePipelineConfig } from './config.js';
+
 export { runPipeline, generateVariants } from './pipeline.js';
 export type { PipelineOptions } from './pipeline.js';
 
