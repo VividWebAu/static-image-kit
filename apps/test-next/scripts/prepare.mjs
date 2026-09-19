@@ -43,7 +43,7 @@ async function prepare() {
   try {
     console.log('[prepare] Starting test environment preparation...');
 
-    // Step 1: Generate sample images
+    // Generate sample images
     await runScript(
       path.join(__dirname, 'generate-sample-images.mjs'),
       'Generating sample test images'

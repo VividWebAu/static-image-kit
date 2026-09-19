@@ -70,13 +70,16 @@ export function ImageStatic({
       >
         {variants.length > 0 && (
           <>
+            {/* TODO: FIX RESPONSIVE SIZING!!! */}
             <source media="(min-width: 1920px)" srcSet={srcSet} />
             <source media="(min-width: 1024px)" srcSet={srcSet} />
             <source media="(min-width: 640px)" srcSet={srcSet} />
+            {/* <source media="(min-width: 0px)" srcSet={srcSet} /> */}
           </>
         )}
         <img
           src={src}
+          // srcSet={srcSet}
           alt={alt}
           width={width}
           height={height}
