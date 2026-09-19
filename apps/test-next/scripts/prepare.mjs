@@ -49,12 +49,6 @@ async function prepare() {
       'Generating sample test images'
     );
 
-    // Step 2: Build manifest
-    await runScript(
-      path.join(__dirname, 'build-manifest.mjs'),
-      'Building image manifest'
-    );
-
     console.log('\n[prepare] ✓ Test environment ready!');
     process.exit(0);
   } catch (error) {

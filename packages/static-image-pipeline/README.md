@@ -8,7 +8,7 @@ This is the working app flow for a consumer project, and it is the flow the pack
 
 ```bash
 pnpm add @vividwebau/static-image-pipeline @vividwebau/react-static-images
-npx static-image-pipeline init
+pnpm static-image-pipeline init
 ```
 
 This creates the default project scaffold:

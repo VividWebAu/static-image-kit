@@ -8,7 +8,8 @@
     "build": "npm run prepare && next build",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx || true",
-    "test": "echo \"Tests not yet configured\" || true"
+    "test": "echo \"Tests not yet configured\" || true",
+    "prepare:images": "static-image-pipeline run"
   },
   "dependencies": {
     "@vividwebau/react-static-images": "workspace:*",
