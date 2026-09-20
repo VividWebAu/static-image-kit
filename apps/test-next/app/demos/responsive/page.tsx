@@ -43,8 +43,36 @@ export default function ResponsiveDemo() {
               alt={image.id}
               manifest={manifest}
               layout="intrinsic"
+              sizes={{ sm: "100px" }}
             />
-            Intrinsic layout (default)
+            Intrinsic layout (default) sizes: 100px
+            <br />
+            <ImageStatic
+              image={image.src}
+              alt={image.id}
+              manifest={manifest}
+              layout="intrinsic"
+              sizes={{ sm: "50vw" }}
+            />
+            Intrinsic layout (default) sizes: 50vw
+            <br />
+            <ImageStatic
+              image={image.src}
+              alt={image.id}
+              manifest={manifest}
+              layout="intrinsic"
+              sizes={{ sm: "25%" }}
+            />
+            Intrinsic layout (default) 25%
+            <br />
+            <ImageStatic
+              image={image.src}
+              alt={image.id}
+              manifest={manifest}
+              layout="intrinsic"
+              sizes={{ sm: 0.3 }}
+            />
+            Intrinsic layout (default) sizes: 30%
             <br />
             <ImageStatic
               image={image.src}
