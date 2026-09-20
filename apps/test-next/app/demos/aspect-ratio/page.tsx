@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ImageStatic, generatePaddingBottom } from '@vividwebau/react-static-images';
 import path from 'path';
 import { readFileSync } from 'fs';
+import manifest from "apps/test-next/public/.processed-static-images/manifest.static-images.json";
 
 // Load manifest from public folder
 const manifestPath = path.join(process.cwd(), 'public/.processed-static-images/manifest.static-images.json');
@@ -42,12 +43,9 @@ export default function AspectRatioDemo() {
             </p>
             <div style={{ marginTop: '1rem', maxWidth: '600px' }}>
               <ImageStatic
-                src={image.src}
+                image={image.src}
                 alt={image.id}
-                width={image.width}
-                height={image.height}
-                blurDataURL={image.blurDataURL}
-                dominantColor={image.dominantColor}
+                manifest={manifest}
               />
             </div>
             <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: '#666' }}>

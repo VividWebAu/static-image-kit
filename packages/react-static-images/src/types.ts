@@ -4,7 +4,9 @@
 
 export interface ImageVariant {
   width: number;
+  format: string;
   src: string;
+  filename: string;
 }
 
 export interface ImageEntry {

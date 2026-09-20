@@ -24,8 +24,8 @@ Options:
   --input          Input directory containing images (required)
   --output         Output manifest file path (required)
   --output-dir     Output directory for generated variants (optional)
-  --widths         Comma-separated list of responsive widths (default: 320,640,960,1280)
-  --formats        Comma-separated list of formats (default: webp,jpeg)
+  --widths         Comma-separated list of responsive widths (default: 160,320,640,960,1280)
+  --formats        Comma-separated list of formats (default: avif,webp,jpeg)
   --write-variants Generate responsive image variants (default: false)
 
 Examples:

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ImageStatic } from '@vividwebau/react-static-images';
 import path from 'path';
 import { readFileSync } from 'fs';
+import manifest from "apps/test-next/public/.processed-static-images/manifest.static-images.json";
 
 // Load manifest from public folder
 const manifestPath = path.join(process.cwd(), 'public/.processed-static-images/manifest.static-images.json');
@@ -35,12 +36,9 @@ export default function SyntheticDemo() {
             <div key={image.id}>
               <h4 style={{ marginBottom: '0.5rem' }}>{image.id}</h4>
               <ImageStatic
-                src={image.src}
+                image={image.src}
                 alt={image.id}
-                width={200}
-                height={150}
-                blurDataURL={image.blurDataURL}
-                dominantColor={image.dominantColor}
+                manifest={manifest}
               />
               <p style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#666' }}>
                 {image.width}x{image.height}

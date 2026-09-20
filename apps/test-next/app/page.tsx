@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ImageStatic } from '@vividwebau/react-static-images';
 import path from 'path';
 import { readFileSync } from 'fs';
+import manifest from "apps/test-next/public/.processed-static-images/manifest.static-images.json";
 
 // Load manifest from public folder
 const manifestPath = path.join(process.cwd(), 'public/.processed-static-images/manifest.static-images.json');
@@ -49,13 +50,9 @@ export default function Home() {
             <div>
               <h3>{firstImage.id}</h3>
               <ImageStatic
-                src={firstImage.src}
+                image={firstImage.src}
                 alt={firstImage.id}
-                width={firstImage.width}
-                height={firstImage.height}
-                blurDataURL={firstImage.blurDataURL}
-                dominantColor={firstImage.dominantColor}
-                variants={firstImage.variants}
+                manifest={manifest}
               />
               <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#666' }}>
                 {firstImage.width}x{firstImage.height} ({firstImage.aspectRatio.toFixed(2)} aspect ratio)
@@ -66,13 +63,9 @@ export default function Home() {
             <div>
               <h3>{secondImage.id}</h3>
               <ImageStatic
-                src={secondImage.src}
+                image={secondImage.src}
                 alt={secondImage.id}
-                width={secondImage.width}
-                height={secondImage.height}
-                blurDataURL={secondImage.blurDataURL}
-                dominantColor={secondImage.dominantColor}
-                variants={secondImage.variants}
+                manifest={manifest}
               />
               <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#666' }}>
                 {secondImage.width}x{secondImage.height} ({secondImage.aspectRatio.toFixed(2)} aspect ratio)

@@ -6,8 +6,8 @@ test('default config provides a safe Next/Vercel-friendly setup', () => {
   assert.equal(DEFAULT_STATIC_IMAGE_CONFIG.input, './static-images');
   assert.equal(DEFAULT_STATIC_IMAGE_CONFIG.output, './public/.processed-static-images/manifest.static-images.json');
   assert.equal(DEFAULT_STATIC_IMAGE_CONFIG.outputDir, './public/.processed-static-images');
-  assert.deepEqual(DEFAULT_STATIC_IMAGE_CONFIG.widths, [320, 640, 960, 1280]);
-  assert.deepEqual(DEFAULT_STATIC_IMAGE_CONFIG.formats, ['webp', 'jpeg']);
+  assert.deepEqual(DEFAULT_STATIC_IMAGE_CONFIG.widths, [160, 320, 640, 960, 1280]);
+  assert.deepEqual(DEFAULT_STATIC_IMAGE_CONFIG.formats, ['avif', 'webp', 'jpeg']);
   assert.equal(DEFAULT_STATIC_IMAGE_CONFIG.writeVariants, true);
 });
 

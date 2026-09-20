@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ImageStatic } from '@vividwebau/react-static-images';
 import path from 'path';
 import { readFileSync } from 'fs';
+import manifest from "apps/test-next/public/.processed-static-images/manifest.static-images.json";
 
 // Load manifest from public folder
 const manifestPath = path.join(process.cwd(), 'public/.processed-static-images/manifest.static-images.json');
@@ -45,12 +46,9 @@ export default function ClusteringDemo() {
                       .map((image: any) => (
                         <div key={image!.id}>
                           <ImageStatic
-                            src={image!.src}
+                            image={image!.src}
                             alt={image!.id}
-                            width={200}
-                            height={150}
-                            blurDataURL={image!.blurDataURL}
-                            dominantColor={image!.dominantColor}
+                            manifest={manifest}
                           />
                         </div>
                       ))}

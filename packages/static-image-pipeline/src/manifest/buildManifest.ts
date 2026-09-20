@@ -51,8 +51,8 @@ export async function buildManifest(
 ): Promise<Manifest> {
   console.log(`[buildManifest] Building manifest for ${imagePaths.length} images`);
   
-  const widths = options?.widths ?? [320, 640, 960, 1280];
-  const formats = options?.formats ?? ['webp', 'jpeg'];
+  const widths = options?.widths ?? [160, 320, 640, 960, 1280];
+  const formats = options?.formats ?? ['avif', 'webp', 'jpeg'];
   
   const images: ImageEntry[] = [];
 

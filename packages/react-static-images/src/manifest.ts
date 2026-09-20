@@ -58,6 +58,25 @@ export function getImageBySource(
   return found;
 }
 
+export function getImageByReference(
+  manifest: ManifestData,
+  imageReference: string
+): ImageEntry | undefined {
+  const normalized = imageReference.replace(/\\/g, '/').split('?')[0].split('#')[0];
+  const basename = normalized.split('/').pop() || normalized;
+
+  return manifest.images.find((img) => {
+    const entrySrc = img.src.replace(/\\/g, '/').split('?')[0].split('#')[0];
+    return (
+      entrySrc === normalized ||
+      img.src === normalized ||
+      entrySrc.endsWith(`/${basename}`) ||
+      normalized.endsWith(`/${basename}`) ||
+      basename === img.id
+    );
+  });
+}
+
 export function getImageById(
   manifest: ManifestData,
   id: string

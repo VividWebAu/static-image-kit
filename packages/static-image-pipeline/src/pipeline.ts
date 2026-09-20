@@ -124,8 +124,8 @@ export async function generateVariants(
   inputDir: string,
   options: PipelineOptions
 ): Promise<void> {
-  const widths = options.widths ?? [320, 640, 960, 1280];
-  const formats = options.formats ?? ['webp', 'jpeg'];
+  const widths = options.widths ?? [160, 320, 640, 960, 1280];
+  const formats = options.formats ?? ['avif', 'webp', 'jpeg'];
   const outputDir = options.outputDir!;
 
   console.log('[Pipeline] Generating responsive variants');
@@ -172,7 +172,7 @@ export async function generateVariants(
           if (format === 'webp') {
             await pipeline.webp({ quality: 80 }).toFile(variantPath);
           } else if (format === 'avif') {
-            await pipeline.avif({ quality: 70 }).toFile(variantPath);
+            await pipeline.avif({ quality: 65 }).toFile(variantPath);
           } else {
             // Default to jpeg
             await pipeline.jpeg({ quality: 85, progressive: true }).toFile(variantPath);

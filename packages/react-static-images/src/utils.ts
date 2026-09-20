@@ -5,10 +5,22 @@
 export interface ImageVariant {
   width: number;
   src: string;
+  format?: string;
 }
 
 export function calculateAspectRatio(width: number, height: number): number {
   return width / height;
+}
+
+export function getMimeTypeForFormat(format: string): string {
+  const normalized = format.toLowerCase();
+
+  if (normalized === 'avif') return 'image/avif';
+  if (normalized === 'webp') return 'image/webp';
+  if (normalized === 'jpg' || normalized === 'jpeg') return 'image/jpeg';
+  if (normalized === 'png') return 'image/png';
+
+  return `image/${normalized}`;
 }
 
 export function generateSrcSet(variants: ImageVariant[] = []): string {
@@ -17,6 +29,15 @@ export function generateSrcSet(variants: ImageVariant[] = []): string {
   }
 
   return variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
+}
+
+export function groupVariantsByFormat(variants: ImageVariant[] = []): Record<string, ImageVariant[]> {
+  return variants.reduce<Record<string, ImageVariant[]>>((acc, variant) => {
+    const format = (variant.format ?? 'jpeg').toLowerCase();
+    acc[format] ??= [];
+    acc[format].push(variant);
+    return acc;
+  }, {});
 }
 
 export function formatDominantColor(color: string): string {

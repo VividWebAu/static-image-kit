@@ -1,102 +1,135 @@
-/**
- * Pure React Server Component for static images
- * Provides optimized image rendering with blur-up, clustering, and responsive loading
- *
- * This is a framework-agnostic RSC component with ZERO client-side JavaScript.
- * All image processing happens at build time via the static-image-pipeline.
- * The component renders pure HTML with semantic <picture> and <img> elements.
- */
+import type { ImgHTMLAttributes } from "react";
+import { ManifestData } from "./types";
 
-import type { CSSProperties } from 'react';
-import { generateSrcSet } from './utils.js';
+function resolveImage(manifest: ManifestData, image: string) {
+  return manifest.images.find((img) => img.src === image || img.id === image);
+}
 
-export interface ImageStaticProps {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
+export type ImageLayout = "intrinsic" | "responsive" | "fill" | "fixed";
+
+export interface ImageStaticProps extends ImgHTMLAttributes<HTMLImageElement> {
+  image: string; // TODO: Implement this as relative path to original image (stabel reference)
+  layout?: ImageLayout;
+  manifest: ManifestData;
+  /** Whether the image should be prioritized for loading; sets the `loading`, `fetchPriority` and `decoding` attributes accordingly */
   priority?: boolean;
-  sizes?: string;
-  className?: string;
-  style?: CSSProperties;
-  blurDataURL?: string;
-  dominantColor?: string;
-  variants?: Array<{ width: number; src: string }>;
 }
 
 export function ImageStatic({
-  src,
-  alt,
+  image,
+  layout = "intrinsic",
+  manifest,
+  priority,
   width,
   height,
-  priority = false,
-  sizes,
-  className,
-  style,
-  blurDataURL,
-  dominantColor,
-  variants = [],
+  sizes = "100vw",
+  ...props
 }: ImageStaticProps) {
-  // Generate srcset from variants
-  const srcSet = generateSrcSet(variants);
+  const manifestItem = resolveImage(manifest, image);
 
-  // Build styles for blur prevention and dominant color
-  const containerStyle: CSSProperties = {
-    position: 'relative',
-    overflow: 'hidden',
-    backgroundColor: dominantColor || '#f5f5f5',
-    ...style,
-  };
+  if (!manifestItem) {
+    return <img src={image} {...props} />;
+  }
 
-  // Aspect ratio container to prevent layout shift
-  const aspectRatio = width && height ? width / height : 1.33;
+  const wrapperStyle: React.CSSProperties = {};
+  const imgStyle: React.CSSProperties = {};
 
-  return (
-    <div
-      style={{
-        position: 'relative',
-        paddingBottom: `${(1 / aspectRatio) * 100}%`,
-        ...containerStyle,
-      }}
-    >
-      <picture
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        {variants.length > 0 && (
-          <>
-            {/* TODO: FIX RESPONSIVE SIZING!!! */}
-            <source media="(min-width: 1920px)" srcSet={srcSet} />
-            <source media="(min-width: 1024px)" srcSet={srcSet} />
-            <source media="(min-width: 640px)" srcSet={srcSet} />
-            {/* <source media="(min-width: 0px)" srcSet={srcSet} /> */}
-          </>
-        )}
-        <img
-          src={src}
-          // srcSet={srcSet}
-          alt={alt}
-          width={width}
-          height={height}
-          sizes={sizes}
-          className={className}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding="async"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-          }}
-        />
-      </picture>
-    </div>
+  // --- LAYOUT LOGIC ---
+  if (layout === "intrinsic") {
+    imgStyle.width = "100%";
+    imgStyle.height = "auto";
+    Object.assign(imgStyle, props.style);
+  }
+
+  if (layout === "responsive") {
+    const padding = `${100 / (manifestItem?.aspectRatio ?? 1)}%`;
+    wrapperStyle.position = "relative";
+    wrapperStyle.width = "100%";
+    wrapperStyle.paddingBottom = padding;
+    Object.assign(wrapperStyle, props.style);
+
+    imgStyle.position = "absolute";
+    imgStyle.inset = "0";
+    imgStyle.width = "100%";
+    imgStyle.height = "100%";
+    imgStyle.objectFit = "cover";
+    Object.assign(imgStyle, props.style);
+  }
+
+  if (layout === "fill") {
+    wrapperStyle.position = "relative";
+    wrapperStyle.width = "100%";
+    wrapperStyle.height = "100%";
+    Object.assign(wrapperStyle, props.style);
+
+    imgStyle.position = "absolute";
+    imgStyle.inset = "0";
+    imgStyle.width = "100%";
+    imgStyle.height = "100%";
+    imgStyle.objectFit = props.style?.objectFit ?? "cover";
+    Object.assign(imgStyle, props.style);
+  }
+
+  if (layout === "fixed") {
+    imgStyle.width = width ?? manifestItem?.width;
+    imgStyle.height = height ?? manifestItem?.height;
+    Object.assign(imgStyle, props.style);
+  }
+
+  // --- BLUR PLACEHOLDER ---
+  const blur = manifestItem.blurDataURL;
+  const consumerOpacity = props.style?.opacity;
+
+  if (blur) {
+    imgStyle.backgroundImage = `url(${blur})`;
+    imgStyle.backgroundSize = "cover";
+    imgStyle.backgroundPosition = "center";
+    imgStyle.transition = "opacity 0.4s ease";
+    imgStyle.opacity = 0;
+  }
+
+  const formats = ["avif", "webp", "jpeg"];
+
+  const pictureElement = (
+    <picture>
+      {/* Optimized sources: */}
+      {formats.map((format) => {
+        if (!manifestItem?.variants?.length) return null;
+        const variants = manifestItem.variants.filter(
+          (v) => v.format === format,
+        );
+        if (!variants.length) return null;
+
+        const srcSet = variants.map((v) => `${v.src} ${v.width}w`).join(", ");
+
+        return (
+          <source
+            key={format}
+            type={`image/${format}`}
+            srcSet={srcSet}
+            sizes={sizes}
+          />
+        );
+      })}
+
+      {/* Fallback original image: */}
+      <img
+        src={manifestItem.src}
+        sizes={sizes}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : undefined}
+        decoding={priority ? undefined : "async"}
+        width={width ?? manifestItem.width}
+        height={height ?? manifestItem.height}
+        style={{ ...imgStyle, opacity: consumerOpacity ?? 1 }}
+        {...props}
+      />
+    </picture>
   );
-}
 
-export default ImageStatic;
+  if (layout === "fill" || layout === "responsive") {
+    return <div style={wrapperStyle}>{pictureElement}</div>;
+  }
+
+  return pictureElement;
+}

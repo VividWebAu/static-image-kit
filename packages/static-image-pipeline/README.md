@@ -31,8 +31,8 @@ export default {
   input: './static-images',
   output: './public/.processed-static-images/manifest.static-images.json',
   outputDir: './public/.processed-static-images',
-  widths: [320, 640, 960, 1280],
-  formats: ['webp', 'jpeg'],
+  widths: [160, 320, 640, 960, 1280],
+  formats: ['avif', 'webp', 'jpeg'],
   writeVariants: true,
 };
 ```
@@ -53,8 +53,8 @@ static-image-pipeline run --input ./static-images --output ./public/.processed-s
 import { runPipeline } from '@vividwebau/static-image-pipeline';
 
 await runPipeline('./static-images', './public/.processed-static-images/manifest.static-images.json', {
-  widths: [320, 640, 960, 1280],
-  formats: ['webp', 'jpeg'],
+  widths: [160, 320, 640, 960, 1280],
+  formats: ['avif', 'webp', 'jpeg'],
   writeVariants: true,
   outputDir: './public/.processed-static-images',
 });
@@ -68,7 +68,7 @@ After the pipeline has written the manifest, a consumer can render generated ima
 import { ImageStatic } from '@vividwebau/react-static-images';
 
 export default function Page() {
-  return <ImageStatic src="/images/hero.jpg" alt="Hero" />;
+  return <ImageStatic image="hero.jpg" alt="Hero" />;
 }
 ```
 
