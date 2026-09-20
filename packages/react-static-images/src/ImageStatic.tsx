@@ -7,12 +7,23 @@ function resolveImage(manifest: ManifestData, image: string) {
 
 export type ImageLayout = "intrinsic" | "responsive" | "fill" | "fixed";
 
-export interface ImageStaticProps extends ImgHTMLAttributes<HTMLImageElement> {
+type Px = `${number}px`;
+type Vw = `${number}vw`;
+type Percent = `${number}%`;
+type NumericFraction = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0 | 1;
+type SizeValue = Px | Vw | Percent | NumericFraction;
+
+export interface ImageStaticProps extends Omit<
+  ImgHTMLAttributes<HTMLImageElement>,
+  "sizes"
+> {
   image: string; // TODO: Implement this as relative path to original image (stabel reference)
   layout?: ImageLayout;
   manifest: ManifestData;
   /** Whether the image should be prioritized for loading; sets the `loading`, `fetchPriority` and `decoding` attributes accordingly */
   priority?: boolean;
+  /** Extend `sizes` to include an object mapping media queries to sizes */
+  sizes?: string | Record<"xs" | "sm" | "md" | "lg" | "xl", SizeValue>;
 }
 
 export function ImageStatic({
@@ -29,6 +40,35 @@ export function ImageStatic({
 
   if (!manifestItem) {
     return <img src={image} {...props} />;
+  }
+
+  // --- SIZES ---
+  const breakpointMap: Record<"xs" | "sm" | "md" | "lg" | "xl", string> = {
+    xs: "480px",
+    sm: "640px",
+    md: "768px",
+    lg: "1024px",
+    xl: "1280px",
+  };
+
+  const normalizeSizeValue = (value: SizeValue) =>
+    typeof value === "string" && value.endsWith("%")
+      ? `${value.slice(0, -1)}vw`
+      : typeof value === "string" && value.endsWith("px")
+        ? value
+        : typeof value === "string" && value.endsWith("vw")
+          ? value
+          : typeof value === "number"
+            ? `${value * 100}vw`
+            : value;
+
+  if (typeof sizes === "object") {
+    sizes = Object.entries(sizes)
+      .map(
+        ([key, value]) =>
+          `(min-width: ${breakpointMap[key as keyof typeof breakpointMap]}) ${normalizeSizeValue(value)}`,
+      )
+      .join(", ");
   }
 
   const wrapperStyle: React.CSSProperties = {};
