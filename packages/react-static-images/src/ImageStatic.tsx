@@ -10,7 +10,8 @@ export type ImageLayout = "intrinsic" | "responsive" | "fill" | "fixed";
 type Px = `${number}px`;
 type Vw = `${number}vw`;
 type Percent = `${number}%`;
-type NumericFraction = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0 | 1;
+type NumericFraction =
+  0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0 | 1;
 type SizeValue = Px | Vw | Percent | NumericFraction;
 
 export interface ImageStaticProps extends Omit<
@@ -23,7 +24,7 @@ export interface ImageStaticProps extends Omit<
   /** Whether the image should be prioritized for loading; sets the `loading`, `fetchPriority` and `decoding` attributes accordingly */
   priority?: boolean;
   /** Extend `sizes` to include an object mapping media queries to sizes */
-  sizes?: string | Record<"xs" | "sm" | "md" | "lg" | "xl", SizeValue>;
+  sizes?: string | { [key in "xs" | "sm" | "md" | "lg" | "xl"]?: SizeValue };
 }
 
 export function ImageStatic({
