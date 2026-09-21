@@ -1,0 +1,91 @@
+# ============================================================
+# Core Node / pnpm
+# ============================================================
+node_modules/
+.pnpm-store/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ============================================================
+# Turborepo
+# ============================================================
+.turbo/
+turbo-debug.log
+
+# ============================================================
+# TypeScript
+# ============================================================
+*.tsbuildinfo
+dist/
+build/
+
+# ============================================================
+# Next.js (test app)
+# ============================================================
+.next/
+out/
+.next/cache/
+apps/test-next/.next/
+apps/test-next/out/
+
+# ============================================================
+# Logs
+# ============================================================
+logs/
+*.log
+*.log.*
+debug.log
+
+# ============================================================
+# OS / Editor junk
+# ============================================================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ============================================================
+# Static Image Pipeline - Generated Assets
+# ============================================================
+# Processed images (resized variants, format conversions)
+# MUST NOT be committed - regenerated at build time
+apps/test-next/public/.processed-static-images/
+
+# Temporary manifest files from pipeline runs
+*.manifest.tmp
+*.manifest.json.tmp
+
+# NOTE: Original test images (apps/test-next/public/test-images/)
+# ARE committed as the source of truth for visual testing.
+# Only processed outputs are gitignored.
+# Test artifacts
+# ============================================================
+coverage/
+packages/static-image-pipeline/tests/tmp/
+packages/static-image-pipeline/tests/tmp/**
+
+# ============================================================
+# Pipeline outputs (consumer-owned)
+# ============================================================
+# Ignore generated manifests unless explicitly committed
+**/manifest.static-images.json
+
+# Ignore generated image variants
+**/generated-images/
+**/generated-images/**
+
+# ============================================================
+# Environment files
+# ============================================================
+.env
+.env.local
+.env.*.local
+
+# ============================================================
+# Misc
+# ============================================================
+*.bak
+*.tmp

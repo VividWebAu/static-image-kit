@@ -1,0 +1,33 @@
+{
+  "name": "static-image-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo for static image pipeline and React components",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "lint:biome": "biome check .",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "format:biome": "biome format --write ."
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.8",
+    "@types/node": "^20.0.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0",
+    "ts-node": "^10.9.0",
+    "turbo": "^2.10.12",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@11.24.0"
+}

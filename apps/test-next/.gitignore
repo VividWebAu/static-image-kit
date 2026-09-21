@@ -1,0 +1,12 @@
+# ============================================================
+# Test app specific gitignore
+# Generated/processed assets MUST NOT be committed
+# ============================================================
+
+# Processed image variants (resized, format-converted)
+# These are generated at build time
+public/.processed-static-images/
+
+# Next.js build artifacts
+.next/
+out/
