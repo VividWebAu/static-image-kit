@@ -4,7 +4,7 @@
  */
 
 import fg from "fast-glob";
-import path from "path";
+import path from "node:path";
 
 export async function globFiles(pattern: string, baseDir?: string): Promise<string[]> {
   console.log(`[glob.globFiles] Pattern: ${pattern}`, baseDir ? `in ${baseDir}` : "");

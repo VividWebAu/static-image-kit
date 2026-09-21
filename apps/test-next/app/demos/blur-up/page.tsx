@@ -34,7 +34,7 @@ export default function BlurUpDemo() {
         <h2>Demo Images:</h2>
         {image && (
           <div style={{ marginTop: "1rem", maxWidth: "600px" }}>
-            <ImageStatic image={image.src} alt={image.id} priority />
+            <ImageStatic image={image.staticPath} alt={image.id} priority />
             <p
               style={{
                 marginTop: "0.5rem",

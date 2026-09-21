@@ -3,7 +3,7 @@
  * Extracts dimensions, aspect ratio, color info from images
  */
 
-import { promises as fs } from "fs";
+import { promises as fs } from "node:fs";
 import sharp from "sharp";
 
 export interface ImageMetadata {

@@ -11,7 +11,8 @@ export interface ImageVariant {
 
 export interface ImageEntry {
   id: string;
-  src: string;
+  srcUnoptimized: string;
+  staticPath: string;
   width: number;
   height: number;
   aspectRatio: number;

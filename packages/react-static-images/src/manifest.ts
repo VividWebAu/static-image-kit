@@ -49,7 +49,7 @@ export async function loadManifest(manifestPath: string | ManifestData): Promise
 
 export function getImageBySource(manifest: ManifestData, src: string): ImageEntry | undefined {
   console.log(`[getImageBySource] Finding image: ${src}`);
-  const found = manifest.images.find((img) => img.src === src);
+  const found = manifest.images.find((img) => img.staticPath === src);
   return found;
 }
 
@@ -61,10 +61,10 @@ export function getImageByReference(
   const basename = normalized.split("/").pop() || normalized;
 
   return manifest.images.find((img) => {
-    const entrySrc = img.src.replace(/\\/g, "/").split("?")[0].split("#")[0];
+    const entrySrc = img.staticPath.replace(/\\/g, "/").split("?")[0].split("#")[0];
     return (
       entrySrc === normalized ||
-      img.src === normalized ||
+      img.staticPath === normalized ||
       entrySrc.endsWith(`/${basename}`) ||
       normalized.endsWith(`/${basename}`) ||
       basename === img.id

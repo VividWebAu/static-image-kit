@@ -38,10 +38,10 @@ export default function SyntheticDemo() {
             marginTop: "1rem",
           }}
         >
-          {manifestData.images.map((image: any) => (
+          {manifestData.images.map((image) => (
             <div key={image.id}>
               <h4 style={{ marginBottom: "0.5rem" }}>{image.id}</h4>
-              <ImageStatic image={image.src} alt={image.id} />
+              <ImageStatic image={image.staticPath} alt={image.id} />
               <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "#666" }}>
                 {image.width}x{image.height}
               </p>

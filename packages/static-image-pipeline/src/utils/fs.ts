@@ -2,8 +2,7 @@
  * Filesystem utilities
  */
 
-import { promises as fs } from "fs";
-import path from "path";
+import { promises as fs } from "node:fs";
 
 export async function readDirectory(dirPath: string): Promise<string[]> {
   console.log(`[fs.readDirectory] Reading: ${dirPath}`);

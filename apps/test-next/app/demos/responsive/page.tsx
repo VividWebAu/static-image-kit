@@ -35,15 +35,16 @@ export default function ResponsiveDemo() {
         {image && (
           <div style={{ marginTop: "1rem" }}>
             <ImageStatic
-              image={image.src}
+              image={image.staticPath}
               alt={image.id}
               layout="intrinsic"
               sizes={{ sm: "100px" }}
             />
             Intrinsic layout (default) sizes: 100px
+            StaticPath: {image.staticPath}
             <br />
             <ImageStatic
-              image={image.src}
+              image={image.staticPath}
               alt={image.id}
               layout="intrinsic"
               sizes={{ sm: "50vw" }}
@@ -51,25 +52,25 @@ export default function ResponsiveDemo() {
             Intrinsic layout (default) sizes: 50vw
             <br />
             <ImageStatic
-              image={image.src}
+              image={image.staticPath}
               alt={image.id}
               layout="intrinsic"
               sizes={{ sm: "25%" }}
             />
             Intrinsic layout (default) 25%
             <br />
-            <ImageStatic image={image.src} alt={image.id} layout="intrinsic" sizes={{ sm: 0.3 }} />
+            <ImageStatic image={image.staticPath} alt={image.id} layout="intrinsic" sizes={{ sm: 0.3 }} />
             Intrinsic layout (default) sizes: 30%
             <br />
-            <ImageStatic image={image.src} alt={image.id} layout="responsive" />
+            <ImageStatic image={image.staticPath} alt={image.id} layout="responsive" />
             Responsive layout
             <br />
             <div style={{ position: "relative", width: "300px", height: "400px" }}>
-              <ImageStatic image={image.src} alt={image.id} layout="fill" />
+              <ImageStatic image={image.staticPath} alt={image.id} layout="fill" />
             </div>
             Fill layout (300x400)
             <br />
-            <ImageStatic image={image.src} alt={image.id} layout="fixed" width={300} height={400} />
+            <ImageStatic image={image.staticPath} alt={image.id} layout="fixed" width={300} height={400} />
             <br />
             Fixed layout (300x400)
             <p

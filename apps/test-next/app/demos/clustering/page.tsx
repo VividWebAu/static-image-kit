@@ -51,7 +51,7 @@ export default function ClusteringDemo() {
                         .filter(Boolean)
                         .map((image: any) => (
                           <div key={image.id}>
-                            <ImageStatic image={image.src} alt={image.id} />
+                            <ImageStatic image={image.staticPath} alt={image.id} />
                           </div>
                         ))}
                     </div>

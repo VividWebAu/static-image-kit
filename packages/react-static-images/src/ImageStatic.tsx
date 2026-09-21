@@ -3,7 +3,7 @@ import { getStaticImageManifest } from "./manifest-registry.js";
 import type { ManifestData } from "./types.js";
 
 function resolveImage(manifest: ManifestData, image: string) {
-  return manifest.images.find((img) => img.src === image || img.id === image);
+  return manifest.images.find((img) => img.staticPath === image || img.id === image);
 }
 
 export type ImageLayout = "intrinsic" | "responsive" | "fill" | "fixed";
@@ -148,7 +148,7 @@ export function ImageStatic({
       {/* Fallback original image: */}
       <img
         alt={alt}
-        src={manifestItem.src}
+        src={manifestItem.srcUnoptimized}
         sizes={sizes}
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : undefined}
