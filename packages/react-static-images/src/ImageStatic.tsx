@@ -1,6 +1,6 @@
 import type { ImgHTMLAttributes } from "react";
-import { getStaticImageManifest } from "./manifest-registry";
-import type { ManifestData } from "./types";
+import { getStaticImageManifest } from "./manifest-registry.js";
+import type { ManifestData } from "./types.js";
 
 function resolveImage(manifest: ManifestData, image: string) {
   return manifest.images.find((img) => img.src === image || img.id === image);
@@ -41,7 +41,7 @@ export function ImageStatic({
   const manifestItem = manifestToUse ? resolveImage(manifestToUse, image) : null;
 
   if (!manifestItem) {
-    return <img src={image} {...props} alt={alt} />;
+    return <img src={image} alt={alt} {...props} />;
   }
 
   // --- SIZES ---

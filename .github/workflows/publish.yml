@@ -1,0 +1,89 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # -----------------------------------------------------
+      # TYPECHECK ONLY PIPELINE + REACT COMPONENT (exclude test app)
+      # -----------------------------------------------------
+      - name: Typecheck library packages
+        run: |
+          pnpm --filter ./packages/react-static-images typecheck
+          pnpm --filter ./packages/static-image-pipeline typecheck
+
+      # -----------------------------------------------------
+      # LINT ONLY PIPELINE + REACT COMPONENT (exclude test app)
+      # -----------------------------------------------------
+      - name: Lint library packages
+        run: |
+          pnpm --filter ./packages/react-static-images lint || true
+          pnpm --filter ./packages/static-image-pipeline lint || true
+
+      # -----------------------------------------------------
+      # BUILD ONLY PIPELINE + REACT COMPONENT (exclude test app)
+      # -----------------------------------------------------
+      - name: Build library packages
+        run: |
+          pnpm --filter ./packages/react-static-images build
+          pnpm --filter ./packages/static-image-pipeline build
+
+      # -----------------------------------------------------
+      # VERSION CHECK (unchanged)
+      # -----------------------------------------------------
+      - name: Check if version already exists on npm
+        working-directory: packages/react-static-images
+        run: |
+          VERSION=${{ github.event.release.tag_name }}
+          PKG="@vividwebau/react-static-images"
+          EXISTS=$(npm view $PKG@$VERSION version || echo "none")
+          if [ "$EXISTS" != "none" ]; then
+            echo "Version $VERSION already exists on npm. Skipping publish."
+            exit 0
+          fi
+      - name: Check if version already exists on npm
+        working-directory: packages/static-image-pipeline
+        run: |
+          VERSION=${{ github.event.release.tag_name }}
+          PKG="@vividwebau/static-image-pipeline"
+          EXISTS=$(npm view $PKG@$VERSION version || echo "none")
+          if [ "$EXISTS" != "none" ]; then
+            echo "Version $VERSION already exists on npm. Skipping publish."
+            exit 0
+          fi
+
+      # -----------------------------------------------------
+      # PUBLISH (unchanged)
+      # -----------------------------------------------------
+      - name: Publish to npm
+        working-directory: packages/react-static-images
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm
+        working-directory: packages/static-image-pipeline
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

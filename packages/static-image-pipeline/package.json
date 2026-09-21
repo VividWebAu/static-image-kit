@@ -1,6 +1,7 @@
 {
   "name": "@vividwebau/static-image-pipeline",
   "version": "0.1.0",
+  "license": "MIT",
   "description": "Static image pipeline for blur-up, clustering, and manifest generation",
   "type": "module",
   "main": "dist/index.js",

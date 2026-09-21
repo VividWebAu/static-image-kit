@@ -1,6 +1,7 @@
 {
   "name": "@vividwebau/react-static-images",
   "version": "0.1.0",
+  "license": "MIT",
   "description": "React Server Component for static image optimization",
   "type": "module",
   "main": "dist/index.js",
