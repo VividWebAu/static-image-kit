@@ -53,12 +53,18 @@ export function ImageStatic({
   }
 
   // --- SIZES ---
-  const breakpointMap: Record<"xs" | "sm" | "md" | "lg" | "xl", string> = {
+  const breakpointMap: Record<
+    "default" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl",
+    string
+  > = {
+    default: "0px",
+    "2xs": "360px",
     xs: "480px",
     sm: "640px",
     md: "768px",
     lg: "1024px",
     xl: "1280px",
+    "2xl": "1536px",
   };
 
   const normalizeSizeValue = (value: SizeValue) =>

@@ -35,9 +35,6 @@ importers:
       '@vividwebau/react-static-images':
         specifier: workspace:*
         version: link:../../packages/react-static-images
-      '@vividwebau/static-image-pipeline':
-        specifier: workspace:*
-        version: link:../../packages/static-image-pipeline
       next:
         specifier: ^15.0.0
         version: 15.5.24(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -57,6 +54,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.0
         version: 19.2.5(@types/react@19.2.18)
+      '@vividwebau/static-image-pipeline':
+        specifier: workspace:*
+        version: link:../../packages/static-image-pipeline
       eslint:
         specifier: ^8.55.0
         version: 8.57.1(supports-color@7.2.0)
