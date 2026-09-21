@@ -50,8 +50,8 @@ export default function ClusteringDemo() {
                         .map((id: string) => manifestData.images.find((img: any) => img.id === id))
                         .filter(Boolean)
                         .map((image: any) => (
-                          <div key={image!.id}>
-                            <ImageStatic image={image!.src} alt={image!.id} />
+                          <div key={image.id}>
+                            <ImageStatic image={image.src} alt={image.id} />
                           </div>
                         ))}
                     </div>

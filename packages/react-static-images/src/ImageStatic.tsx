@@ -26,6 +26,7 @@ export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElemen
 }
 
 export function ImageStatic({
+  alt,
   image,
   layout = "intrinsic",
   manifest,
@@ -40,7 +41,7 @@ export function ImageStatic({
   const manifestItem = manifestToUse ? resolveImage(manifestToUse, image) : null;
 
   if (!manifestItem) {
-    return <img src={image} {...props} />;
+    return <img src={image} {...props} alt={alt} />;
   }
 
   // --- SIZES ---
@@ -146,6 +147,7 @@ export function ImageStatic({
 
       {/* Fallback original image: */}
       <img
+        alt={alt}
         src={manifestItem.src}
         sizes={sizes}
         loading={priority ? "eager" : "lazy"}
