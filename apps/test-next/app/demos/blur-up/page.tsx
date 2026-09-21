@@ -1,18 +1,15 @@
 import Link from "next/link";
 import { ImageStatic } from "@vividwebau/react-static-images";
-import path from "path";
-import { readFileSync } from "fs";
-import manifest from "apps/test-next/public/.processed-static-images/manifest.static-images.json";
-
-// Load manifest from public folder
-const manifestPath = path.join(
-  process.cwd(),
-  "public/.processed-static-images/manifest.static-images.json",
-);
-const manifestData = JSON.parse(readFileSync(manifestPath, "utf-8"));
+import { getStaticImageManifest } from "@vividwebau/react-static-images";
 
 export default function BlurUpDemo() {
-  const image = manifestData.images[0];
+  const manifest = getStaticImageManifest();
+
+  if (!manifest) {
+    return <p>No images found in the manifest.</p>;
+  }
+
+  const image = manifest.images[0];
 
   return (
     <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
@@ -42,7 +39,6 @@ export default function BlurUpDemo() {
               image={image.src}
               alt={image.id}
               priority
-              manifest={manifest}
             />
             <p
               style={{

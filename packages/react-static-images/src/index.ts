@@ -2,11 +2,16 @@
  * Export all public APIs
  */
 
-export { ImageStatic } from './ImageStatic.js';
-export type { ImageStaticProps } from './ImageStatic.js';
+export { ImageStatic } from "./ImageStatic.js";
+export type { ImageStaticProps } from "./ImageStatic.js";
 
-export { loadManifest, getImageBySource, getImageById, getImageCluster } from './manifest.js';
-export type { ManifestData, ImageEntry } from './manifest.js';
+export {
+  loadManifest,
+  getImageBySource,
+  getImageById,
+  getImageCluster,
+} from "./manifest.js";
+export type { ManifestData, ImageEntry } from "./manifest.js";
 
 export type {
   ImageMetadata,
@@ -14,7 +19,7 @@ export type {
   BlurPlaceholder,
   ResponsiveImage,
   ImageVariant,
-} from './types.js';
+} from "./types.js";
 
 export {
   calculateAspectRatio,
@@ -22,4 +27,9 @@ export {
   formatDominantColor,
   generatePaddingBottom,
   generatePictureSizes,
-} from './utils.js';
+} from "./utils.js";
+
+export {
+  setStaticImageManifest,
+  getStaticImageManifest,
+} from "./manifest-registry.js";

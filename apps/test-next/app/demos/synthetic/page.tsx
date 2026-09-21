@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { ImageStatic } from '@vividwebau/react-static-images';
-import path from 'path';
-import { readFileSync } from 'fs';
-import manifest from "apps/test-next/public/.processed-static-images/manifest.static-images.json";
-
-// Load manifest from public folder
-const manifestPath = path.join(process.cwd(), 'public/.processed-static-images/manifest.static-images.json');
-const manifestData = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+import { getStaticImageManifest } from '@vividwebau/react-static-images';
 
 export default function SyntheticDemo() {
+  const manifestData = getStaticImageManifest();
+
+  if (!manifestData) {
+    return <p>No images found in the manifest.</p>;
+  }
+
   return (
     <main style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
       <Link href="/" style={{ textDecoration: 'underline' }}>
@@ -38,7 +38,6 @@ export default function SyntheticDemo() {
               <ImageStatic
                 image={image.src}
                 alt={image.id}
-                manifest={manifest}
               />
               <p style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#666' }}>
                 {image.width}x{image.height}

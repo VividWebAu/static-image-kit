@@ -1,17 +1,14 @@
 import Link from "next/link";
 import { ImageStatic } from "@vividwebau/react-static-images";
-import path from "path";
-import { readFileSync } from "fs";
-import manifest from "apps/test-next/public/.processed-static-images/manifest.static-images.json";
-
-// Load manifest from public folder
-const manifestPath = path.join(
-  process.cwd(),
-  "public/.processed-static-images/manifest.static-images.json",
-);
-const manifestData = JSON.parse(readFileSync(manifestPath, "utf-8"));
+import { getStaticImageManifest } from "@vividwebau/react-static-images";
 
 export default function ResponsiveDemo() {
+  const manifestData = getStaticImageManifest();
+
+  if (!manifestData) {
+    return <p>No images found in the manifest.</p>;
+  }
+
   const image = manifestData.images[0];
 
   return (
@@ -41,7 +38,6 @@ export default function ResponsiveDemo() {
             <ImageStatic
               image={image.src}
               alt={image.id}
-              manifest={manifest}
               layout="intrinsic"
               sizes={{ sm: "100px" }}
             />
@@ -50,7 +46,6 @@ export default function ResponsiveDemo() {
             <ImageStatic
               image={image.src}
               alt={image.id}
-              manifest={manifest}
               layout="intrinsic"
               sizes={{ sm: "50vw" }}
             />
@@ -59,7 +54,6 @@ export default function ResponsiveDemo() {
             <ImageStatic
               image={image.src}
               alt={image.id}
-              manifest={manifest}
               layout="intrinsic"
               sizes={{ sm: "25%" }}
             />
@@ -68,36 +62,24 @@ export default function ResponsiveDemo() {
             <ImageStatic
               image={image.src}
               alt={image.id}
-              manifest={manifest}
               layout="intrinsic"
               sizes={{ sm: 0.3 }}
             />
             Intrinsic layout (default) sizes: 30%
             <br />
-            <ImageStatic
-              image={image.src}
-              alt={image.id}
-              manifest={manifest}
-              layout="responsive"
-            />
+            <ImageStatic image={image.src} alt={image.id} layout="responsive" />
             Responsive layout
             <br />
             <div
               style={{ position: "relative", width: "300px", height: "400px" }}
             >
-              <ImageStatic
-                image={image.src}
-                alt={image.id}
-                manifest={manifest}
-                layout="fill"
-              />
+              <ImageStatic image={image.src} alt={image.id} layout="fill" />
             </div>
             Fill layout (300x400)
             <br />
             <ImageStatic
               image={image.src}
               alt={image.id}
-              manifest={manifest}
               layout="fixed"
               width={300}
               height={400}

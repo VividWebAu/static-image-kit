@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { ImageStatic } from '@vividwebau/react-static-images';
-import path from 'path';
-import { readFileSync } from 'fs';
-import manifest from "apps/test-next/public/.processed-static-images/manifest.static-images.json";
-
-// Load manifest from public folder
-const manifestPath = path.join(process.cwd(), 'public/.processed-static-images/manifest.static-images.json');
-const manifestData = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+import { getStaticImageManifest } from "@vividwebau/react-static-images";
 
 export default function ClusteringDemo() {
+  const manifestData = getStaticImageManifest();
+
+  if (!manifestData) {
+    return <p>No images found in the manifest.</p>;
+  }
+
   return (
     <main style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
       <Link href="/" style={{ textDecoration: 'underline' }}>
@@ -48,7 +48,6 @@ export default function ClusteringDemo() {
                           <ImageStatic
                             image={image!.src}
                             alt={image!.id}
-                            manifest={manifest}
                           />
                         </div>
                       ))}

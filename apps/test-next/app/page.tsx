@@ -1,15 +1,14 @@
 import Link from 'next/link';
 import { ImageStatic } from '@vividwebau/react-static-images';
-import path from 'path';
-import { readFileSync } from 'fs';
-import manifest from "apps/test-next/public/.processed-static-images/manifest.static-images.json";
-
-// Load manifest from public folder
-const manifestPath = path.join(process.cwd(), 'public/.processed-static-images/manifest.static-images.json');
-const manifestData = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+import { getStaticImageManifest } from "@vividwebau/react-static-images";
 
 export default function Home() {
-  // Get first two images from manifest for demo
+  const manifestData = getStaticImageManifest();
+
+  if (!manifestData) {
+    return <p>No images found in the manifest.</p>;
+  }
+
   const firstImage = manifestData.images[0];
   const secondImage = manifestData.images[1];
 
@@ -52,7 +51,6 @@ export default function Home() {
               <ImageStatic
                 image={firstImage.src}
                 alt={firstImage.id}
-                manifest={manifest}
               />
               <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#666' }}>
                 {firstImage.width}x{firstImage.height} ({firstImage.aspectRatio.toFixed(2)} aspect ratio)
@@ -65,7 +63,6 @@ export default function Home() {
               <ImageStatic
                 image={secondImage.src}
                 alt={secondImage.id}
-                manifest={manifest}
               />
               <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#666' }}>
                 {secondImage.width}x{secondImage.height} ({secondImage.aspectRatio.toFixed(2)} aspect ratio)

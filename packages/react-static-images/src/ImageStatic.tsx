@@ -1,4 +1,5 @@
 import type { ImgHTMLAttributes } from "react";
+import { getStaticImageManifest } from "./manifest-registry";
 import { ManifestData } from "./types";
 
 function resolveImage(manifest: ManifestData, image: string) {
@@ -20,7 +21,8 @@ export interface ImageStaticProps extends Omit<
 > {
   image: string; // TODO: Implement this as relative path to original image (stabel reference)
   layout?: ImageLayout;
-  manifest: ManifestData;
+  /** Fallback to the global manifest if not provided */
+  manifest?: ManifestData;
   /** Whether the image should be prioritized for loading; sets the `loading`, `fetchPriority` and `decoding` attributes accordingly */
   priority?: boolean;
   /** Extend `sizes` to include an object mapping media queries to sizes */
@@ -37,7 +39,11 @@ export function ImageStatic({
   sizes = "100vw",
   ...props
 }: ImageStaticProps) {
-  const manifestItem = resolveImage(manifest, image);
+  const manifestToUse = manifest ?? getStaticImageManifest();
+
+  const manifestItem = manifestToUse
+    ? resolveImage(manifestToUse, image)
+    : null;
 
   if (!manifestItem) {
     return <img src={image} {...props} />;
