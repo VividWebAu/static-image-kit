@@ -21,6 +21,7 @@ type Vw = `${number}vw`;
 type Percent = `${number}%`;
 type NumericFraction = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0 | 1;
 type SizeValue = Px | Vw | Percent | NumericFraction;
+type SizeBreakpoints = "default" |"2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "sizes"> {
   image: string; // TODO: Implement this as relative path to original image (stabel reference)
@@ -30,7 +31,7 @@ export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElemen
   /** Whether the image should be prioritized for loading; sets the `loading`, `fetchPriority` and `decoding` attributes accordingly */
   priority?: boolean;
   /** Extend `sizes` to include an object mapping media queries to sizes */
-  sizes?: string | { [key in "xs" | "sm" | "md" | "lg" | "xl"]?: SizeValue };
+  sizes?: string | { [key in SizeBreakpoints]?: SizeValue };
 }
 
 export function ImageStatic({
@@ -54,7 +55,7 @@ export function ImageStatic({
 
   // --- SIZES ---
   const breakpointMap: Record<
-    "default" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl",
+    SizeBreakpoints,
     string
   > = {
     default: "0px",
