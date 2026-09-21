@@ -1,6 +1,6 @@
 {
   "name": "@vividwebau/static-image-pipeline",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "description": "Static image pipeline for blur-up, clustering, and manifest generation",
   "type": "module",
@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "fast-glob": "^3.3.2",
-    "sharp": "^0.33.0",
+    "sharp": "^0.35.4",
     "zod": "^3.22.0"
   },
   "devDependencies": {
