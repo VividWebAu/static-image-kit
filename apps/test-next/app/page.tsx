@@ -49,7 +49,7 @@ export default function Home() {
           {firstImage && (
             <div>
               <h3>{firstImage.id}</h3>
-              <ImageStatic image={firstImage.src} alt={firstImage.id} />
+              <ImageStatic image={firstImage.staticPath} alt={firstImage.id} />
               <p style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "#666" }}>
                 {firstImage.width}x{firstImage.height} ({firstImage.aspectRatio.toFixed(2)} aspect
                 ratio)
@@ -59,7 +59,7 @@ export default function Home() {
           {secondImage && (
             <div>
               <h3>{secondImage.id}</h3>
-              <ImageStatic image={secondImage.src} alt={secondImage.id} />
+              <ImageStatic image={secondImage.staticPath} alt={secondImage.id} />
               <p style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "#666" }}>
                 {secondImage.width}x{secondImage.height} ({secondImage.aspectRatio.toFixed(2)}{" "}
                 aspect ratio)

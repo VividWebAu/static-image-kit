@@ -3,20 +3,13 @@
  * Orchestrates image processing pipeline: metadata extraction, blur generation, clustering, manifest building
  */
 
-import { promises as fs } from "fs";
-import { access } from "fs/promises";
-import path from "path";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 import sharp from "sharp";
 import { buildManifest, type Manifest, type ManifestOptions } from "./manifest/buildManifest.js";
 import { ensureDirectory, writeFile } from "./utils/fs.js";
 import { globFiles } from "./utils/glob.js";
 import { hashFileShort } from "./utils/hashing.js";
-
-// Type for readdir with types
-interface DirEnt {
-  name: string;
-  isDirectory(): boolean;
-}
 
 export interface PipelineOptions extends ManifestOptions {
   writeVariants?: boolean;

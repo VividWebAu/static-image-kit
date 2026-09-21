@@ -44,7 +44,7 @@ export default function AspectRatioDemo() {
               padding-bottom of <code>{generatePaddingBottom(image.aspectRatio)}</code>
             </p>
             <div style={{ marginTop: "1rem", maxWidth: "600px" }}>
-              <ImageStatic image={image.src} alt={image.id} />
+              <ImageStatic image={image.staticPath} alt={image.id} />
             </div>
             <p style={{ marginTop: "1rem", fontSize: "0.875rem", color: "#666" }}>
               Try resizing your window - the image container will maintain its aspect ratio without

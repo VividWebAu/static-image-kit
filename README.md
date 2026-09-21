@@ -15,14 +15,14 @@ The intended package flow for an app consumer is now the validated flow:
 
 ```bash
 pnpm add @vividwebau/static-image-pipeline @vividwebau/react-static-images
-npx static-image-pipeline init
+pnpm static-image-pipeline init
 ```
 
 Then:
 
 1. add source images under `static-images/`
 2. optionally adjust the generated `.static-image-kit.config.mjs`
-3. run `static-image-pipeline run`
+3. run `pnpm static-image-pipeline run`
 4. import and render `<ImageStatic />` in the app
 
 This is the standard path for a Next.js app and does not require a custom app-specific manifest script for the normal setup.

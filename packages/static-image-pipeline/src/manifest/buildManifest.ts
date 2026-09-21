@@ -3,7 +3,7 @@
  * Aggregates image metadata into a consumable manifest
  */
 
-import path from "path";
+import path from "node:path";
 import { generateBlurDataURL } from "../blur/generateBlur.js";
 import { extractMetadata } from "../metadata/extractMetadata.js";
 import { hashFileShort } from "../utils/hashing.js";
@@ -17,7 +17,8 @@ export interface ImageVariant {
 
 export interface ImageEntry {
   id: string;
-  src: string;
+  srcUnoptimized: string;
+  staticPath: string;
   width: number;
   height: number;
   aspectRatio: number;
@@ -93,7 +94,8 @@ export async function buildManifest(
 
       const entry: ImageEntry = {
         id,
-        src: `/.processed-static-images/${hash}/${fileName}`,
+        staticPath: relativePath,
+        srcUnoptimized: `/.processed-static-images/${hash}/${fileName}`,
         width: metadata.width,
         height: metadata.height,
         aspectRatio: metadata.aspectRatio,

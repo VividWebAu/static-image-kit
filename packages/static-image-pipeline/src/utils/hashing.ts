@@ -3,8 +3,8 @@
  * Generate content hashes for image identification
  */
 
-import { createHash } from "crypto";
-import { promises as fs } from "fs";
+import { createHash } from "node:crypto";
+import { promises as fs } from "node:fs";
 
 export function hashContent(content: Buffer | string): string {
   const hash = createHash("sha256");
