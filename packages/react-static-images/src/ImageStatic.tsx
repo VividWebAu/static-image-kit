@@ -3,7 +3,15 @@ import { getStaticImageManifest } from "./manifest-registry.js";
 import type { ManifestData } from "./types.js";
 
 function resolveImage(manifest: ManifestData, image: string) {
-  return manifest.images.find((img) => img.staticPath === image || img.id === image);
+  function normalizeStaticPath(staticPath: string) {
+    return staticPath
+      .replace(/\\/g, "/") // Windows → POSIX
+      .replace(/^\/+/, ""); // Remove leading slashes
+  }
+
+  return manifest.images.find(
+    (img) => img.staticPath === normalizeStaticPath(image) || img.id === image,
+  );
 }
 
 export type ImageLayout = "intrinsic" | "responsive" | "fill" | "fixed";

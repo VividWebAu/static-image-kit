@@ -23,7 +23,24 @@ Then:
 1. add source images under `static-images/`
 2. optionally adjust the generated `.static-image-kit.config.mjs`
 3. run `pnpm static-image-pipeline run`
-4. import and render `<ImageStatic />` in the app
+4. IMPORTANT: set the locally generated manifest file in `layout.tsx`
+```
+import "./globals.css";
+import { setStaticImageManifest } from "@vividwebau/react-static-images";
+import manifest from "@/public/.processed-static-images/manifest.static-images.json";
+
+setStaticImageManifest(manifest);
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+Note: we will improve this implementation in a later release
+5. import and render `<ImageStatic />` in the app
 
 This is the standard path for a Next.js app and does not require a custom app-specific manifest script for the normal setup.
 
