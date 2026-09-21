@@ -1,13 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "strict": true,
@@ -19,25 +16,13 @@
     "allowImportingTsExtensions": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": [
-      "node",
-      "react",
-      "react-dom"
-    ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "../../node_modules/@types"
-    ],
+    "types": ["node", "react", "react-dom"],
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@pipeline/*": [
-        "../../packages/static-image-pipeline/src/*"
-      ],
-      "@react-static-images/*": [
-        "../../packages/react-static-images/src/*"
-      ]
+      "@/*": ["./*"],
+      "@/public/*": ["./public/*"],
+      "@pipeline/*": ["../../packages/static-image-pipeline/src/*"],
+      "@react-static-images/*": ["../../packages/react-static-images/src/*"]
     },
     "plugins": [
       {
@@ -48,13 +33,6 @@
     "noEmit": true,
     "isolatedModules": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.json", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
 import type { ImgHTMLAttributes } from "react";
 import { getStaticImageManifest } from "./manifest-registry";
-import { ManifestData } from "./types";
+import type { ManifestData } from "./types";
 
 function resolveImage(manifest: ManifestData, image: string) {
   return manifest.images.find((img) => img.src === image || img.id === image);
@@ -11,14 +11,10 @@ export type ImageLayout = "intrinsic" | "responsive" | "fill" | "fixed";
 type Px = `${number}px`;
 type Vw = `${number}vw`;
 type Percent = `${number}%`;
-type NumericFraction =
-  0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0 | 1;
+type NumericFraction = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0 | 1;
 type SizeValue = Px | Vw | Percent | NumericFraction;
 
-export interface ImageStaticProps extends Omit<
-  ImgHTMLAttributes<HTMLImageElement>,
-  "sizes"
-> {
+export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "sizes"> {
   image: string; // TODO: Implement this as relative path to original image (stabel reference)
   layout?: ImageLayout;
   /** Fallback to the global manifest if not provided */
@@ -41,9 +37,7 @@ export function ImageStatic({
 }: ImageStaticProps) {
   const manifestToUse = manifest ?? getStaticImageManifest();
 
-  const manifestItem = manifestToUse
-    ? resolveImage(manifestToUse, image)
-    : null;
+  const manifestItem = manifestToUse ? resolveImage(manifestToUse, image) : null;
 
   if (!manifestItem) {
     return <img src={image} {...props} />;
@@ -142,21 +136,12 @@ export function ImageStatic({
       {/* Optimized sources: */}
       {formats.map((format) => {
         if (!manifestItem?.variants?.length) return null;
-        const variants = manifestItem.variants.filter(
-          (v) => v.format === format,
-        );
+        const variants = manifestItem.variants.filter((v) => v.format === format);
         if (!variants.length) return null;
 
         const srcSet = variants.map((v) => `${v.src} ${v.width}w`).join(", ");
 
-        return (
-          <source
-            key={format}
-            type={`image/${format}`}
-            srcSet={srcSet}
-            sizes={sizes}
-          />
-        );
+        return <source key={format} type={`image/${format}`} srcSet={srcSet} sizes={sizes} />;
       })}
 
       {/* Fallback original image: */}

@@ -60,4 +60,3 @@ export interface ResponsiveImage {
   srcSet: string;
   sizes?: string;
 }
-

@@ -15,25 +15,27 @@ export function calculateAspectRatio(width: number, height: number): number {
 export function getMimeTypeForFormat(format: string): string {
   const normalized = format.toLowerCase();
 
-  if (normalized === 'avif') return 'image/avif';
-  if (normalized === 'webp') return 'image/webp';
-  if (normalized === 'jpg' || normalized === 'jpeg') return 'image/jpeg';
-  if (normalized === 'png') return 'image/png';
+  if (normalized === "avif") return "image/avif";
+  if (normalized === "webp") return "image/webp";
+  if (normalized === "jpg" || normalized === "jpeg") return "image/jpeg";
+  if (normalized === "png") return "image/png";
 
   return `image/${normalized}`;
 }
 
 export function generateSrcSet(variants: ImageVariant[] = []): string {
   if (variants.length === 0) {
-    return '';
+    return "";
   }
 
-  return variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
+  return variants.map((variant) => `${variant.src} ${variant.width}w`).join(", ");
 }
 
-export function groupVariantsByFormat(variants: ImageVariant[] = []): Record<string, ImageVariant[]> {
+export function groupVariantsByFormat(
+  variants: ImageVariant[] = [],
+): Record<string, ImageVariant[]> {
   return variants.reduce<Record<string, ImageVariant[]>>((acc, variant) => {
-    const format = (variant.format ?? 'jpeg').toLowerCase();
+    const format = (variant.format ?? "jpeg").toLowerCase();
     acc[format] ??= [];
     acc[format].push(variant);
     return acc;
@@ -43,7 +45,7 @@ export function groupVariantsByFormat(variants: ImageVariant[] = []): Record<str
 export function formatDominantColor(color: string): string {
   console.log(`[formatDominantColor] Formatting: ${color}`);
   // Ensure it's a valid hex color
-  if (color.startsWith('#')) {
+  if (color.startsWith("#")) {
     return color;
   }
   // Prefix with # if missing
@@ -66,7 +68,7 @@ export function generatePictureSizes(variants: ImageVariant[]): string {
    * Example: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
    */
   if (variants.length === 0) {
-    return '100vw';
+    return "100vw";
   }
 
   // Group variants by width and generate appropriate breakpoints
@@ -81,5 +83,5 @@ export function generatePictureSizes(variants: ImageVariant[]): string {
   // Last variant is the default
   sizes.push(`${sorted[sorted.length - 1].width}px`);
 
-  return sizes.join(', ');
+  return sizes.join(", ");
 }

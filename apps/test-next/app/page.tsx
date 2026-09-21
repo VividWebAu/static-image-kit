@@ -1,6 +1,5 @@
-import Link from 'next/link';
-import { ImageStatic } from '@vividwebau/react-static-images';
-import { getStaticImageManifest } from "@vividwebau/react-static-images";
+import { getStaticImageManifest, ImageStatic } from "@vividwebau/react-static-images";
+import Link from "next/link";
 
 export default function Home() {
   const manifestData = getStaticImageManifest();
@@ -13,15 +12,12 @@ export default function Home() {
   const secondImage = manifestData.images[1];
 
   return (
-    <main style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
+    <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
       <h1>Static Image Pipeline - Test App</h1>
-      <p>
-        Test and visualize different image optimization techniques. Select a demo
-        below:
-      </p>
+      <p>Test and visualize different image optimization techniques. Select a demo below:</p>
 
       <nav>
-        <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+        <ul style={{ listStyle: "none", paddingLeft: 0 }}>
           <li>
             <Link href="/demos/blur-up">→ Blur-up (Progressive Loading)</Link>
           </li>
@@ -32,9 +28,7 @@ export default function Home() {
             <Link href="/demos/responsive">→ Responsive Images (srcset)</Link>
           </li>
           <li>
-            <Link href="/demos/aspect-ratio">
-              → Aspect Ratio (Layout Shift Prevention)
-            </Link>
+            <Link href="/demos/aspect-ratio">→ Aspect Ratio (Layout Shift Prevention)</Link>
           </li>
           <li>
             <Link href="/demos/synthetic">→ Synthetic Images (Test Data)</Link>
@@ -42,37 +36,40 @@ export default function Home() {
         </ul>
       </nav>
 
-      <section style={{ marginTop: '3rem' }}>
+      <section style={{ marginTop: "3rem" }}>
         <h2>Demo Images</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginTop: '1rem' }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "2rem",
+            marginTop: "1rem",
+          }}
+        >
           {firstImage && (
             <div>
               <h3>{firstImage.id}</h3>
-              <ImageStatic
-                image={firstImage.src}
-                alt={firstImage.id}
-              />
-              <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#666' }}>
-                {firstImage.width}x{firstImage.height} ({firstImage.aspectRatio.toFixed(2)} aspect ratio)
+              <ImageStatic image={firstImage.src} alt={firstImage.id} />
+              <p style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "#666" }}>
+                {firstImage.width}x{firstImage.height} ({firstImage.aspectRatio.toFixed(2)} aspect
+                ratio)
               </p>
             </div>
           )}
           {secondImage && (
             <div>
               <h3>{secondImage.id}</h3>
-              <ImageStatic
-                image={secondImage.src}
-                alt={secondImage.id}
-              />
-              <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#666' }}>
-                {secondImage.width}x{secondImage.height} ({secondImage.aspectRatio.toFixed(2)} aspect ratio)
+              <ImageStatic image={secondImage.src} alt={secondImage.id} />
+              <p style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "#666" }}>
+                {secondImage.width}x{secondImage.height} ({secondImage.aspectRatio.toFixed(2)}{" "}
+                aspect ratio)
               </p>
             </div>
           )}
         </div>
       </section>
 
-      <section style={{ marginTop: '3rem' }}>
+      <section style={{ marginTop: "3rem" }}>
         <h2>Features</h2>
         <ul>
           <li>Blur-up placeholders for fast perceived performance</li>

@@ -1,6 +1,5 @@
+import { getStaticImageManifest, ImageStatic } from "@vividwebau/react-static-images";
 import Link from "next/link";
-import { ImageStatic } from "@vividwebau/react-static-images";
-import { getStaticImageManifest } from "@vividwebau/react-static-images";
 
 export default function ResponsiveDemo() {
   const manifestData = getStaticImageManifest();
@@ -19,8 +18,8 @@ export default function ResponsiveDemo() {
       <h1>Responsive Images Demo</h1>
       <p>Responsive image sizing with srcset.</p>
       <p>
-        Serves appropriately-sized images to different devices, reducing
-        bandwidth and improving page load times.
+        Serves appropriately-sized images to different devices, reducing bandwidth and improving
+        page load times.
       </p>
       <section>
         <h2>How it works:</h2>
@@ -59,31 +58,18 @@ export default function ResponsiveDemo() {
             />
             Intrinsic layout (default) 25%
             <br />
-            <ImageStatic
-              image={image.src}
-              alt={image.id}
-              layout="intrinsic"
-              sizes={{ sm: 0.3 }}
-            />
+            <ImageStatic image={image.src} alt={image.id} layout="intrinsic" sizes={{ sm: 0.3 }} />
             Intrinsic layout (default) sizes: 30%
             <br />
             <ImageStatic image={image.src} alt={image.id} layout="responsive" />
             Responsive layout
             <br />
-            <div
-              style={{ position: "relative", width: "300px", height: "400px" }}
-            >
+            <div style={{ position: "relative", width: "300px", height: "400px" }}>
               <ImageStatic image={image.src} alt={image.id} layout="fill" />
             </div>
             Fill layout (300x400)
             <br />
-            <ImageStatic
-              image={image.src}
-              alt={image.id}
-              layout="fixed"
-              width={300}
-              height={400}
-            />
+            <ImageStatic image={image.src} alt={image.id} layout="fixed" width={300} height={400} />
             <br />
             Fixed layout (300x400)
             <p
@@ -93,8 +79,7 @@ export default function ResponsiveDemo() {
                 color: "#666",
               }}
             >
-              The pipeline resolves the responsive variants internally so app
-              code stays simple.
+              The pipeline resolves the responsive variants internally so app code stays simple.
             </p>
           </div>
         )}

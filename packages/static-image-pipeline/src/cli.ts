@@ -1,10 +1,15 @@
 #!/usr/bin/env node
+
 /**
  * CLI entry point for the static image pipeline
  */
 
-import { runPipeline, type PipelineOptions } from './pipeline.js';
-import { initializeStaticImageProject, resolvePipelineConfig, DEFAULT_STATIC_IMAGE_CONFIG } from './config.js';
+import {
+  DEFAULT_STATIC_IMAGE_CONFIG,
+  initializeStaticImageProject,
+  resolvePipelineConfig,
+} from "./config.js";
+import { type PipelineOptions, runPipeline } from "./pipeline.js";
 
 const args = process.argv.slice(2);
 
@@ -51,61 +56,61 @@ function parseArgs(): {
     formats?: string[];
     writeVariants?: boolean;
   } = {};
-  
+
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === '--input' && i + 1 < args.length) {
+    if (args[i] === "--input" && i + 1 < args.length) {
       parsed.input = args[i + 1];
       i++;
-    } else if (args[i] === '--output' && i + 1 < args.length) {
+    } else if (args[i] === "--output" && i + 1 < args.length) {
       parsed.output = args[i + 1];
       i++;
-    } else if (args[i] === '--output-dir' && i + 1 < args.length) {
+    } else if (args[i] === "--output-dir" && i + 1 < args.length) {
       parsed.outputDir = args[i + 1];
       i++;
-    } else if (args[i] === '--widths' && i + 1 < args.length) {
+    } else if (args[i] === "--widths" && i + 1 < args.length) {
       parsed.widths = args[i + 1]
-        .split(',')
+        .split(",")
         .map((w) => parseInt(w.trim(), 10))
         .filter((w) => !isNaN(w));
       i++;
-    } else if (args[i] === '--formats' && i + 1 < args.length) {
-      parsed.formats = args[i + 1]
-        .split(',')
-        .map((f) => f.trim());
+    } else if (args[i] === "--formats" && i + 1 < args.length) {
+      parsed.formats = args[i + 1].split(",").map((f) => f.trim());
       i++;
-    } else if (args[i] === '--write-variants') {
+    } else if (args[i] === "--write-variants") {
       parsed.writeVariants = true;
     }
   }
-  
+
   return parsed;
 }
 
 async function main(): Promise<void> {
-  if (args.length === 0 || args[0] === 'help' || args[0] === '--help') {
+  if (args.length === 0 || args[0] === "help" || args[0] === "--help") {
     printHelp();
     return;
   }
 
   const command = args[0];
 
-  if (command === 'init') {
+  if (command === "init") {
     try {
       const result = await initializeStaticImageProject();
-      console.log('[CLI] Initialised static image project scaffold');
+      console.log("[CLI] Initialised static image project scaffold");
       console.log(`[CLI] Source images: ${result.staticImagesDir}`);
       console.log(`[CLI] Config: ${result.configPath}`);
-      console.log('[CLI] Added prepare:images script to package.json');
-      console.log('[CLI] Added public/.processed-static-images/ to .gitignore');
-      console.log('[CLI] Next step: add images to static-images/ and run "static-image-pipeline run"');
+      console.log("[CLI] Added prepare:images script to package.json");
+      console.log("[CLI] Added public/.processed-static-images/ to .gitignore");
+      console.log(
+        '[CLI] Next step: add images to static-images/ and run "static-image-pipeline run"',
+      );
     } catch (error) {
-      console.error('[CLI] Init failed:', error);
+      console.error("[CLI] Init failed:", error);
       process.exit(1);
     }
     return;
   }
 
-  if (command === 'run') {
+  if (command === "run") {
     const { input, output, outputDir, widths, formats, writeVariants } = parseArgs();
     const config = await resolvePipelineConfig();
 
@@ -117,13 +122,13 @@ async function main(): Promise<void> {
     const resolvedWriteVariants = writeVariants ?? config.writeVariants;
 
     if (!resolvedInput || !resolvedOutput) {
-      console.error('[CLI] Error: --input and --output are required');
+      console.error("[CLI] Error: --input and --output are required");
       printHelp();
       process.exit(1);
     }
 
     if (resolvedWriteVariants && !resolvedOutputDir) {
-      console.error('[CLI] Error: --output-dir is required when --write-variants is used');
+      console.error("[CLI] Error: --output-dir is required when --write-variants is used");
       printHelp();
       process.exit(1);
     }
@@ -141,7 +146,7 @@ async function main(): Promise<void> {
       const duration = ((Date.now() - startTime) / 1000).toFixed(2);
       console.log(`[CLI] Pipeline completed successfully in ${duration}s`);
     } catch (error) {
-      console.error('[CLI] Pipeline failed:', error);
+      console.error("[CLI] Pipeline failed:", error);
       process.exit(1);
     }
     return;
@@ -153,6 +158,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error('[CLI Error]', err);
+  console.error("[CLI Error]", err);
   process.exit(1);
 });

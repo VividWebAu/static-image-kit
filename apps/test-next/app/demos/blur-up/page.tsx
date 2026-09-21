@@ -1,6 +1,5 @@
+import { getStaticImageManifest, ImageStatic } from "@vividwebau/react-static-images";
 import Link from "next/link";
-import { ImageStatic } from "@vividwebau/react-static-images";
-import { getStaticImageManifest } from "@vividwebau/react-static-images";
 
 export default function BlurUpDemo() {
   const manifest = getStaticImageManifest();
@@ -19,8 +18,8 @@ export default function BlurUpDemo() {
       <h1>Blur-up Demo</h1>
       <p>Blur-up image loading technique with low-quality placeholders.</p>
       <p>
-        The pipeline generates a small, heavily compressed version of each image
-        that displays while the full image loads.
+        The pipeline generates a small, heavily compressed version of each image that displays while
+        the full image loads.
       </p>
       <section>
         <h2>How it works:</h2>
@@ -35,11 +34,7 @@ export default function BlurUpDemo() {
         <h2>Demo Images:</h2>
         {image && (
           <div style={{ marginTop: "1rem", maxWidth: "600px" }}>
-            <ImageStatic
-              image={image.src}
-              alt={image.id}
-              priority
-            />
+            <ImageStatic image={image.src} alt={image.id} priority />
             <p
               style={{
                 marginTop: "0.5rem",

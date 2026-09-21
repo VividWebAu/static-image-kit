@@ -8,11 +8,8 @@ export interface FeatureVector {
   features: number[];
 }
 
-export async function extractFeatures(
-  imagePath: string,
-  method?: string
-): Promise<number[]> {
-  console.log(`[extractFeatures] Processing: ${imagePath} with method: ${method ?? 'histogram'}`);
+export async function extractFeatures(imagePath: string, method?: string): Promise<number[]> {
+  console.log(`[extractFeatures] Processing: ${imagePath} with method: ${method ?? "histogram"}`);
   // TODO: Implement feature extraction (histogram, edge detection, etc.)
-  throw new Error('extractFeatures not implemented yet');
+  throw new Error("extractFeatures not implemented yet");
 }

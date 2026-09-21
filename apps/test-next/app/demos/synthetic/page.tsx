@@ -1,6 +1,5 @@
-import Link from 'next/link';
-import { ImageStatic } from '@vividwebau/react-static-images';
-import { getStaticImageManifest } from '@vividwebau/react-static-images';
+import { getStaticImageManifest, ImageStatic } from "@vividwebau/react-static-images";
+import Link from "next/link";
 
 export default function SyntheticDemo() {
   const manifestData = getStaticImageManifest();
@@ -10,15 +9,15 @@ export default function SyntheticDemo() {
   }
 
   return (
-    <main style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <Link href="/" style={{ textDecoration: 'underline' }}>
+    <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
+      <Link href="/" style={{ textDecoration: "underline" }}>
         ← Back to Home
       </Link>
       <h1>Synthetic Images Demo</h1>
       <p>Testing with programmatically generated images.</p>
       <p>
-        This demo uses synthetic test images to validate the pipeline without
-        needing real image assets.
+        This demo uses synthetic test images to validate the pipeline without needing real image
+        assets.
       </p>
       <section>
         <h2>Synthetic Image Generation:</h2>
@@ -31,15 +30,19 @@ export default function SyntheticDemo() {
       </section>
       <section>
         <h2>Test Data Gallery:</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "1rem",
+            marginTop: "1rem",
+          }}
+        >
           {manifestData.images.map((image: any) => (
             <div key={image.id}>
-              <h4 style={{ marginBottom: '0.5rem' }}>{image.id}</h4>
-              <ImageStatic
-                image={image.src}
-                alt={image.id}
-              />
-              <p style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#666' }}>
+              <h4 style={{ marginBottom: "0.5rem" }}>{image.id}</h4>
+              <ImageStatic image={image.src} alt={image.id} />
+              <p style={{ marginTop: "0.5rem", fontSize: "0.75rem", color: "#666" }}>
                 {image.width}x{image.height}
               </p>
             </div>
@@ -49,11 +52,11 @@ export default function SyntheticDemo() {
       <section>
         <h2>Pipeline Usage:</h2>
         <p>
-          Synthetic images are stored in{' '}
+          Synthetic images are stored in{" "}
           <code>packages/static-image-pipeline/tests/synthetic/</code>
         </p>
         <p>
-          Run the pipeline with:{' '}
+          Run the pipeline with:{" "}
           <code>
             static-image-pipeline run --input tests/synthetic --output
             dist/.processed-static-images/manifest.static-images.json

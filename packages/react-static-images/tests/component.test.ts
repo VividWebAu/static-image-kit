@@ -2,15 +2,15 @@
  * Test suite: React component functionality
  */
 
-import { ImageStatic, type ImageStaticProps } from '../src/ImageStatic.js';
+import { ImageStatic, type ImageStaticProps } from "../src/ImageStatic.js";
 
 async function testImageStaticComponent() {
-  console.log('[TEST] ImageStatic component');
+  console.log("[TEST] ImageStatic component");
   try {
     // TODO: Test component rendering with React Testing Library
-    console.log('[TEST] Component tests pending - use React Testing Library');
+    console.log("[TEST] Component tests pending - use React Testing Library");
   } catch (err) {
-    console.error('[TEST] Error:', err);
+    console.error("[TEST] Error:", err);
   }
 }
 

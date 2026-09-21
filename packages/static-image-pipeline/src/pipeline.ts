@@ -3,14 +3,14 @@
  * Orchestrates image processing pipeline: metadata extraction, blur generation, clustering, manifest building
  */
 
-import { globFiles } from './utils/glob.js';
-import { buildManifest, type Manifest, type ManifestOptions } from './manifest/buildManifest.js';
-import { writeFile, ensureDirectory } from './utils/fs.js';
-import path from 'path';
-import sharp from 'sharp';
-import { hashFileShort } from './utils/hashing.js';
-import { promises as fs } from 'fs';
-import { access } from 'fs/promises';
+import { promises as fs } from "fs";
+import { access } from "fs/promises";
+import path from "path";
+import sharp from "sharp";
+import { buildManifest, type Manifest, type ManifestOptions } from "./manifest/buildManifest.js";
+import { ensureDirectory, writeFile } from "./utils/fs.js";
+import { globFiles } from "./utils/glob.js";
+import { hashFileShort } from "./utils/hashing.js";
 
 // Type for readdir with types
 interface DirEnt {
@@ -29,25 +29,25 @@ export interface PipelineOptions extends ManifestOptions {
 export async function runPipeline(
   inputDir: string,
   outputManifest: string,
-  options?: PipelineOptions
+  options?: PipelineOptions,
 ): Promise<Manifest> {
-  console.log('[Pipeline] Starting pipeline');
-  console.log('[Pipeline] Input directory:', inputDir);
-  console.log('[Pipeline] Output manifest:', outputManifest);
-  console.log('[Pipeline] Options:', options);
+  console.log("[Pipeline] Starting pipeline");
+  console.log("[Pipeline] Input directory:", inputDir);
+  console.log("[Pipeline] Output manifest:", outputManifest);
+  console.log("[Pipeline] Options:", options);
 
   try {
     // Find all image files
-    const imagePaths = await globFiles('**/*.{jpg,jpeg,png,webp,avif,gif}', inputDir);
+    const imagePaths = await globFiles("**/*.{jpg,jpeg,png,webp,avif,gif}", inputDir);
     console.log(`[Pipeline] Found ${imagePaths.length} images`);
 
     if (imagePaths.length === 0) {
-      console.warn('[Pipeline] No images found in input directory');
+      console.warn("[Pipeline] No images found in input directory");
     }
 
     // Build manifest from images
     const manifest = await buildManifest(imagePaths, inputDir, options);
-    console.log('[Pipeline] Manifest built successfully');
+    console.log("[Pipeline] Manifest built successfully");
 
     // Generate responsive variants if requested
     if (options?.writeVariants && options?.outputDir) {
@@ -64,7 +64,7 @@ export async function runPipeline(
 
     return manifest;
   } catch (error) {
-    console.error('[Pipeline] Error:', error);
+    console.error("[Pipeline] Error:", error);
     throw error;
   }
 }
@@ -79,7 +79,7 @@ export async function cleanupStaleImages(outputDir: string): Promise<void> {
       return; // Nothing to clean up
     }
 
-    console.log('[Pipeline] Cleaning up previous variants...');
+    console.log("[Pipeline] Cleaning up previous variants...");
     const entries = await readDir(outputDir);
 
     for (const entry of entries) {
@@ -92,7 +92,7 @@ export async function cleanupStaleImages(outputDir: string): Promise<void> {
       }
     }
   } catch (error) {
-    console.warn('[Pipeline] Warning during cleanup:', error);
+    console.warn("[Pipeline] Warning during cleanup:", error);
     // Don't fail if cleanup has issues, just warn
   }
 }
@@ -102,9 +102,7 @@ interface DirEntry {
 }
 
 async function readDir(dirPath: string): Promise<string[]> {
-  return (await fs.readdir(dirPath, { withFileTypes: true })).map(
-    (entry: DirEntry) => entry.name
-  );
+  return (await fs.readdir(dirPath, { withFileTypes: true })).map((entry: DirEntry) => entry.name);
 }
 
 async function fileExists(filePath: string): Promise<boolean> {
@@ -122,20 +120,20 @@ async function fileExists(filePath: string): Promise<boolean> {
 export async function generateVariants(
   imagePaths: string[],
   inputDir: string,
-  options: PipelineOptions
+  options: PipelineOptions,
 ): Promise<void> {
   const widths = options.widths ?? [160, 320, 640, 960, 1280];
-  const formats = options.formats ?? ['avif', 'webp', 'jpeg'];
+  const formats = options.formats ?? ["avif", "webp", "jpeg"];
   const outputDir = options.outputDir!;
 
-  console.log('[Pipeline] Generating responsive variants');
+  console.log("[Pipeline] Generating responsive variants");
 
   // Clean up stale images before generating new ones
   await cleanupStaleImages(outputDir);
 
   for (const imagePath of imagePaths) {
     const fileName = path.basename(imagePath);
-    const fileNameWithoutExt = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+    const fileNameWithoutExt = fileName.substring(0, fileName.lastIndexOf(".")) || fileName;
     const hash = await hashFileShort(imagePath);
     const variantDir = path.join(outputDir, hash);
 
@@ -163,15 +161,14 @@ export async function generateVariants(
         const variantPath = path.join(variantDir, variantFileName);
 
         try {
-          let pipeline = sharp(imagePath)
-            .resize(width, undefined, {
-              withoutEnlargement: true,
-              fit: 'cover',
-            });
+          const pipeline = sharp(imagePath).resize(width, undefined, {
+            withoutEnlargement: true,
+            fit: "cover",
+          });
 
-          if (format === 'webp') {
+          if (format === "webp") {
             await pipeline.webp({ quality: 80 }).toFile(variantPath);
-          } else if (format === 'avif') {
+          } else if (format === "avif") {
             await pipeline.avif({ quality: 65 }).toFile(variantPath);
           } else {
             // Default to jpeg
@@ -186,10 +183,10 @@ export async function generateVariants(
     }
   }
 
-  console.log('[Pipeline] Variant generation complete');
+  console.log("[Pipeline] Variant generation complete");
 }
 
-export { extractMetadata } from './metadata/extractMetadata.js';
-export { generateBlur, generateBlurDataURL } from './blur/generateBlur.js';
-export { clusterBlurs } from './clustering/clusterBlurs.js';
-export { buildManifest } from './manifest/buildManifest.js';
+export { generateBlur, generateBlurDataURL } from "./blur/generateBlur.js";
+export { clusterBlurs } from "./clustering/clusterBlurs.js";
+export { buildManifest } from "./manifest/buildManifest.js";
+export { extractMetadata } from "./metadata/extractMetadata.js";

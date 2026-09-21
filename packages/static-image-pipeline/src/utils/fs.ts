@@ -2,8 +2,8 @@
  * Filesystem utilities
  */
 
-import { promises as fs } from 'fs';
-import path from 'path';
+import { promises as fs } from "fs";
+import path from "path";
 
 export async function readDirectory(dirPath: string): Promise<string[]> {
   console.log(`[fs.readDirectory] Reading: ${dirPath}`);
@@ -29,9 +29,6 @@ export async function readFile(filePath: string): Promise<Buffer> {
   return fs.readFile(filePath);
 }
 
-export async function writeFile(
-  filePath: string,
-  content: string | Buffer
-): Promise<void> {
+export async function writeFile(filePath: string, content: string | Buffer): Promise<void> {
   await fs.writeFile(filePath, content);
 }

@@ -8,19 +8,12 @@ export interface KMeansResult {
   iterations: number;
 }
 
-export function kmeans(
-  vectors: number[][],
-  k: number,
-  maxIterations?: number
-): KMeansResult {
+export function kmeans(vectors: number[][], k: number, maxIterations?: number): KMeansResult {
   // TODO: Implement k-means algorithm
-  throw new Error('Not implemented');
+  throw new Error("Not implemented");
 }
 
-export function euclideanDistance(
-  a: number[],
-  b: number[]
-): number {
+export function euclideanDistance(a: number[], b: number[]): number {
   // TODO: Implement euclidean distance calculation
   return 0;
 }

@@ -1,57 +1,58 @@
 #!/usr/bin/env node
+
 /**
  * Generate sample test images for pipeline testing
  * Creates colored PNG files with text overlays
  */
 
-import sharp from 'sharp';
-import { promises as fs } from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { promises as fs } from "fs";
+import path from "path";
+import sharp from "sharp";
+import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const testImagesDir = path.join(__dirname, '../static-images');
+const testImagesDir = path.join(__dirname, "../static-images");
 
 const sampleImages = [
   {
-    name: 'landscape.jpg',
+    name: "landscape.jpg",
     width: 1920,
     height: 1080,
-    color: '#FF6B6B',
-    text: 'Landscape Image 1920x1080',
+    color: "#FF6B6B",
+    text: "Landscape Image 1920x1080",
   },
   {
-    name: 'portrait.jpg',
+    name: "portrait.jpg",
     width: 1080,
     height: 1920,
-    color: '#4ECDC4',
-    text: 'Portrait Image 1080x1920',
+    color: "#4ECDC4",
+    text: "Portrait Image 1080x1920",
   },
   {
-    name: 'square.jpg',
+    name: "square.jpg",
     width: 1200,
     height: 1200,
-    color: '#45B7D1',
-    text: 'Square Image 1200x1200',
+    color: "#45B7D1",
+    text: "Square Image 1200x1200",
   },
   {
-    name: 'wide.jpg',
+    name: "wide.jpg",
     width: 1600,
     height: 600,
-    color: '#FFA07A',
-    text: 'Wide Image 1600x600',
+    color: "#FFA07A",
+    text: "Wide Image 1600x600",
   },
   {
-    name: 'tall.jpg',
+    name: "tall.jpg",
     width: 800,
     height: 1400,
-    color: '#98D8C8',
-    text: 'Tall Image 800x1400',
+    color: "#98D8C8",
+    text: "Tall Image 800x1400",
   },
 ];
 
 async function generateImages() {
-  console.log('[generate-sample-images] Starting image generation...');
+  console.log("[generate-sample-images] Starting image generation...");
 
   try {
     // Ensure test-images directory exists
@@ -84,16 +85,18 @@ async function generateImages() {
       `;
 
       // Convert SVG to JPEG
-      await sharp(Buffer.from(svg))
-        .jpeg({ quality: 85, progressive: true })
-        .toFile(outputPath);
+      await sharp(Buffer.from(svg)).jpeg({ quality: 85, progressive: true }).toFile(outputPath);
 
-      console.log(`[generate-sample-images] Generated: ${image.name} (${image.width}x${image.height})`);
+      console.log(
+        `[generate-sample-images] Generated: ${image.name} (${image.width}x${image.height})`,
+      );
     }
 
-    console.log(`[generate-sample-images] Successfully generated ${sampleImages.length} sample images`);
+    console.log(
+      `[generate-sample-images] Successfully generated ${sampleImages.length} sample images`,
+    );
   } catch (error) {
-    console.error('[generate-sample-images] Error:', error);
+    console.error("[generate-sample-images] Error:", error);
     process.exit(1);
   }
 }

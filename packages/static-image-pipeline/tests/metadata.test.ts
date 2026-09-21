@@ -2,15 +2,15 @@
  * Test suite: metadata extraction
  */
 
-import { extractMetadata, type ImageMetadata } from '../src/metadata/extractMetadata.js';
+import { extractMetadata, type ImageMetadata } from "../src/metadata/extractMetadata.js";
 
 async function testExtractMetadata() {
-  console.log('[TEST] extractMetadata stub');
+  console.log("[TEST] extractMetadata stub");
   try {
     // TODO: Test with real image file
-    console.log('[TEST] Implementation pending...');
+    console.log("[TEST] Implementation pending...");
   } catch (err) {
-    console.error('[TEST] Error:', err);
+    console.error("[TEST] Error:", err);
   }
 }
 

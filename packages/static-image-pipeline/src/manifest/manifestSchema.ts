@@ -3,10 +3,10 @@
  * TypeScript types and Zod validation for manifest
  */
 
-import { z } from 'zod';
-import type { Manifest, ImageEntry, ImageVariant } from './buildManifest.js';
+import { z } from "zod";
+import type { ImageEntry, ImageVariant, Manifest } from "./buildManifest.js";
 
-export type { Manifest, ImageEntry, ImageVariant };
+export type { ImageEntry, ImageVariant, Manifest };
 
 // Zod schemas for validation
 export const ImageVariantSchema = z.object({
@@ -41,7 +41,7 @@ export function validateManifest(data: unknown): data is Manifest {
     ManifestSchema.parse(data);
     return true;
   } catch (error) {
-    console.error('[validateManifest] Validation failed:', error);
+    console.error("[validateManifest] Validation failed:", error);
     return false;
   }
 }
@@ -51,7 +51,7 @@ export function validateImageEntry(data: unknown): data is ImageEntry {
     ImageEntrySchema.parse(data);
     return true;
   } catch (error) {
-    console.error('[validateImageEntry] Validation failed:', error);
+    console.error("[validateImageEntry] Validation failed:", error);
     return false;
   }
 }

@@ -2,9 +2,9 @@
  * Manifest loading and management
  */
 
-import type { ManifestData, ImageEntry } from './types.js';
+import type { ImageEntry, ManifestData } from "./types.js";
 
-export type { ManifestData, ImageEntry };
+export type { ImageEntry, ManifestData };
 
 /**
  * Load and cache manifest data
@@ -12,13 +12,11 @@ export type { ManifestData, ImageEntry };
  */
 let cachedManifest: ManifestData | null = null;
 
-export async function loadManifest(
-  manifestPath: string | ManifestData
-): Promise<ManifestData> {
-  console.log('[loadManifest] Loading manifest');
+export async function loadManifest(manifestPath: string | ManifestData): Promise<ManifestData> {
+  console.log("[loadManifest] Loading manifest");
 
   // If already an object, return it
-  if (typeof manifestPath === 'object') {
+  if (typeof manifestPath === "object") {
     cachedManifest = manifestPath;
     return manifestPath;
   }
@@ -35,7 +33,7 @@ export async function loadManifest(
 
     // For now, return a placeholder
     const manifest: ManifestData = {
-      version: '1.0.0',
+      version: "1.0.0",
       generated: new Date().toISOString(),
       images: [],
       clusters: {},
@@ -44,15 +42,12 @@ export async function loadManifest(
     cachedManifest = manifest;
     return manifest;
   } catch (error) {
-    console.error('[loadManifest] Error loading manifest:', error);
+    console.error("[loadManifest] Error loading manifest:", error);
     throw error;
   }
 }
 
-export function getImageBySource(
-  manifest: ManifestData,
-  src: string
-): ImageEntry | undefined {
+export function getImageBySource(manifest: ManifestData, src: string): ImageEntry | undefined {
   console.log(`[getImageBySource] Finding image: ${src}`);
   const found = manifest.images.find((img) => img.src === src);
   return found;
@@ -60,13 +55,13 @@ export function getImageBySource(
 
 export function getImageByReference(
   manifest: ManifestData,
-  imageReference: string
+  imageReference: string,
 ): ImageEntry | undefined {
-  const normalized = imageReference.replace(/\\/g, '/').split('?')[0].split('#')[0];
-  const basename = normalized.split('/').pop() || normalized;
+  const normalized = imageReference.replace(/\\/g, "/").split("?")[0].split("#")[0];
+  const basename = normalized.split("/").pop() || normalized;
 
   return manifest.images.find((img) => {
-    const entrySrc = img.src.replace(/\\/g, '/').split('?')[0].split('#')[0];
+    const entrySrc = img.src.replace(/\\/g, "/").split("?")[0].split("#")[0];
     return (
       entrySrc === normalized ||
       img.src === normalized ||
@@ -77,19 +72,13 @@ export function getImageByReference(
   });
 }
 
-export function getImageById(
-  manifest: ManifestData,
-  id: string
-): ImageEntry | undefined {
+export function getImageById(manifest: ManifestData, id: string): ImageEntry | undefined {
   console.log(`[getImageById] Finding image: ${id}`);
   const found = manifest.images.find((img) => img.id === id);
   return found;
 }
 
-export function getImageCluster(
-  manifest: ManifestData,
-  imageId: string
-): string[] | undefined {
+export function getImageCluster(manifest: ManifestData, imageId: string): string[] | undefined {
   console.log(`[getImageCluster] Finding cluster for: ${imageId}`);
 
   if (!manifest.clusters) {

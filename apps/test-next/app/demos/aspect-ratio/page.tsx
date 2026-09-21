@@ -1,9 +1,9 @@
-import Link from "next/link";
 import {
-  ImageStatic,
   generatePaddingBottom,
+  getStaticImageManifest,
+  ImageStatic,
 } from "@vividwebau/react-static-images";
-import { getStaticImageManifest } from "@vividwebau/react-static-images";
+import Link from "next/link";
 
 export default function AspectRatioDemo() {
   const manifest = getStaticImageManifest();
@@ -22,8 +22,8 @@ export default function AspectRatioDemo() {
       <h1>Aspect Ratio Demo</h1>
       <p>Aspect ratio preservation to prevent layout shift.</p>
       <p>
-        By preserving aspect ratio during loading, we prevent Cumulative Layout
-        Shift (CLS) and improve user experience.
+        By preserving aspect ratio during loading, we prevent Cumulative Layout Shift (CLS) and
+        improve user experience.
       </p>
       <section>
         <h2>How it works:</h2>
@@ -39,22 +39,16 @@ export default function AspectRatioDemo() {
         {image && (
           <div>
             <p>
-              This image has an aspect ratio of {image.aspectRatio.toFixed(2)}:1
-              ({image.width}x{image.height}). The component automatically
-              prevents layout shift using CSS padding-bottom of{" "}
-              <code>{generatePaddingBottom(image.aspectRatio)}</code>
+              This image has an aspect ratio of {image.aspectRatio.toFixed(2)}:1 ({image.width}x
+              {image.height}). The component automatically prevents layout shift using CSS
+              padding-bottom of <code>{generatePaddingBottom(image.aspectRatio)}</code>
             </p>
             <div style={{ marginTop: "1rem", maxWidth: "600px" }}>
-              <ImageStatic
-                image={image.src}
-                alt={image.id}
-              />
+              <ImageStatic image={image.src} alt={image.id} />
             </div>
-            <p
-              style={{ marginTop: "1rem", fontSize: "0.875rem", color: "#666" }}
-            >
-              Try resizing your window - the image container will maintain its
-              aspect ratio without layout shift.
+            <p style={{ marginTop: "1rem", fontSize: "0.875rem", color: "#666" }}>
+              Try resizing your window - the image container will maintain its aspect ratio without
+              layout shift.
             </p>
           </div>
         )}

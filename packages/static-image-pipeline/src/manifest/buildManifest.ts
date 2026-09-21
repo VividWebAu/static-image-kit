@@ -3,10 +3,10 @@
  * Aggregates image metadata into a consumable manifest
  */
 
-import path from 'path';
-import { hashFileShort } from '../utils/hashing.js';
-import { extractMetadata } from '../metadata/extractMetadata.js';
-import { generateBlurDataURL } from '../blur/generateBlur.js';
+import path from "path";
+import { generateBlurDataURL } from "../blur/generateBlur.js";
+import { extractMetadata } from "../metadata/extractMetadata.js";
+import { hashFileShort } from "../utils/hashing.js";
 
 export interface ImageVariant {
   width: number;
@@ -47,30 +47,32 @@ export interface ManifestOptions {
 export async function buildManifest(
   imagePaths: string[],
   inputDir?: string,
-  options?: ManifestOptions
+  options?: ManifestOptions,
 ): Promise<Manifest> {
   console.log(`[buildManifest] Building manifest for ${imagePaths.length} images`);
-  
+
   const widths = options?.widths ?? [160, 320, 640, 960, 1280];
-  const formats = options?.formats ?? ['avif', 'webp', 'jpeg'];
-  
+  const formats = options?.formats ?? ["avif", "webp", "jpeg"];
+
   const images: ImageEntry[] = [];
 
   for (let i = 0; i < imagePaths.length; i++) {
     const imagePath = imagePaths[i];
     const fileName = path.basename(imagePath);
-    const fileNameWithoutExt = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
-    const relativePath = inputDir ? path.relative(inputDir, imagePath).replace(/\\/g, '/') : imagePath.replace(/\\/g, '/');
-    
+    const fileNameWithoutExt = fileName.substring(0, fileName.lastIndexOf(".")) || fileName;
+    const relativePath = inputDir
+      ? path.relative(inputDir, imagePath).replace(/\\/g, "/")
+      : imagePath.replace(/\\/g, "/");
+
     try {
       // Extract real metadata
       const metadata = await extractMetadata(imagePath);
       const hash = await hashFileShort(imagePath);
       const id = `img-${hash}`;
-      
+
       // Generate blur placeholder
       const blurDataURL = await generateBlurDataURL(imagePath);
-      
+
       // Generate responsive variants
       const variants: ImageVariant[] = [];
       for (const width of widths) {
@@ -108,7 +110,7 @@ export async function buildManifest(
   }
 
   const manifest: Manifest = {
-    version: '1.0.0',
+    version: "1.0.0",
     generated: new Date().toISOString(),
     images,
     clusters: {},
