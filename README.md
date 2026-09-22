@@ -51,27 +51,7 @@ This generates:
 - hashed filenames
 - a manifest at: public/.processed-static-images/manifest.static-images.json
 
-4. Load the manifest once at app startup (Next.js example):
-
-```bash
-import "./globals.css";
-import { setStaticImageManifest } from "@vividwebau/react-static-images";
-import manifest from "@/public/.processed-static-images/manifest.static-images.json";
-
-setStaticImageManifest(manifest);
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-    <body>{children}</body>
-    </html>
-  );
-}
-```
-
-(We will improve this init flow in a later release.)
-
-5. Use <ImageStatic /> anywhere in your app:
+4. Use <ImageStatic /> anywhere in your app:
 
 ```bash
 import { ImageStatic } from "@vividwebau/react-static-images";

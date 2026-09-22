@@ -1,13 +1,7 @@
-import { getStaticImageManifest, ImageStatic } from "@vividwebau/react-static-images";
+// import { ImageStatic } from "@vividwebau/react-static-images";
 import Link from "next/link";
 
 export default function ClusteringDemo() {
-  const manifestData = getStaticImageManifest();
-
-  if (!manifestData) {
-    return <p>No images found in the manifest.</p>;
-  }
-
   return (
     <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
       <Link href="/" style={{ textDecoration: "underline" }}>
@@ -30,7 +24,7 @@ export default function ClusteringDemo() {
       </section>
       <section>
         <h2>Cluster Visualization:</h2>
-        {manifestData.clusters && Object.keys(manifestData.clusters).length > 0 ? (
+        {/* {manifestData.clusters && Object.keys(manifestData.clusters).length > 0 ? (
           <div>
             {Object.entries(manifestData.clusters).map(
               ([clusterId, imageIds]: [string, unknown]) => {
@@ -62,7 +56,7 @@ export default function ClusteringDemo() {
           </div>
         ) : (
           <p>No cluster data available</p>
-        )}
+        )} */}
       </section>
     </main>
   );

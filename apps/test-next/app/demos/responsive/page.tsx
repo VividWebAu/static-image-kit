@@ -1,14 +1,8 @@
-import { getStaticImageManifest, ImageStatic } from "@vividwebau/react-static-images";
+import { ImageStatic } from "@vividwebau/react-static-images";
 import Link from "next/link";
 
 export default function ResponsiveDemo() {
-  const manifestData = getStaticImageManifest();
-
-  if (!manifestData) {
-    return <p>No images found in the manifest.</p>;
-  }
-
-  const image = manifestData.images[0];
+  const image = "/landscape.jpg";
 
   return (
     <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
@@ -34,43 +28,27 @@ export default function ResponsiveDemo() {
         <h2>Responsive Image Examples:</h2>
         {image && (
           <div style={{ marginTop: "1rem" }}>
-            <ImageStatic
-              image={image.staticPath}
-              alt={image.id}
-              layout="intrinsic"
-              sizes={{ sm: "100px" }}
-            />
-            Intrinsic layout (default) sizes: 100px
-            StaticPath: {image.staticPath}
+            <ImageStatic image={image} alt="Landscape" layout="intrinsic" sizes={{ sm: "100px" }} />
+            Intrinsic layout (default) sizes: 100px StaticPath: {image}
             <br />
-            <ImageStatic
-              image={image.staticPath}
-              alt={image.id}
-              layout="intrinsic"
-              sizes={{ sm: "50vw" }}
-            />
+            <ImageStatic image={image} alt="Landscape" layout="intrinsic" sizes={{ sm: "50vw" }} />
             Intrinsic layout (default) sizes: 50vw
             <br />
-            <ImageStatic
-              image={image.staticPath}
-              alt={image.id}
-              layout="intrinsic"
-              sizes={{ sm: "25%" }}
-            />
+            <ImageStatic image={image} alt="Landscape" layout="intrinsic" sizes={{ sm: "25%" }} />
             Intrinsic layout (default) 25%
             <br />
-            <ImageStatic image={image.staticPath} alt={image.id} layout="intrinsic" sizes={{ sm: 0.3 }} />
+            <ImageStatic image={image} alt="Landscape" layout="intrinsic" sizes={{ sm: 0.3 }} />
             Intrinsic layout (default) sizes: 30%
             <br />
-            <ImageStatic image={image.staticPath} alt={image.id} layout="responsive" />
+            <ImageStatic image={image} alt="Landscape" layout="responsive" />
             Responsive layout
             <br />
             <div style={{ position: "relative", width: "300px", height: "400px" }}>
-              <ImageStatic image={image.staticPath} alt={image.id} layout="fill" />
+              <ImageStatic image={image} alt="Landscape" layout="fill" />
             </div>
             Fill layout (300x400)
             <br />
-            <ImageStatic image={image.staticPath} alt={image.id} layout="fixed" width={300} height={400} />
+            <ImageStatic image={image} alt="Landscape" layout="fixed" width={300} height={400} />
             <br />
             Fixed layout (300x400)
             <p

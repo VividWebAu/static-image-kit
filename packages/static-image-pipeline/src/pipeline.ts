@@ -10,6 +10,7 @@ import { buildManifest, type Manifest, type ManifestOptions } from "./manifest/b
 import { ensureDirectory, writeFile } from "./utils/fs.js";
 import { globFiles } from "./utils/glob.js";
 import { hashFileShort } from "./utils/hashing.js";
+import { writeLibraryManifestModule } from "./manifest/writeManifestModule.js";
 
 export interface PipelineOptions extends ManifestOptions {
   writeVariants?: boolean;
@@ -54,6 +55,9 @@ export async function runPipeline(
     // Write manifest to file
     await writeFile(outputManifest, JSON.stringify(manifest, null, 2));
     console.log(`[Pipeline] Manifest written to: ${outputManifest}`);
+
+    // Write JS module into the library package
+    await writeLibraryManifestModule(manifest);
 
     return manifest;
   } catch (error) {

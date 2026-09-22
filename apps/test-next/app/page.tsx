@@ -1,15 +1,9 @@
-import { getStaticImageManifest, ImageStatic } from "@vividwebau/react-static-images";
+import { ImageStatic } from "@vividwebau/react-static-images";
 import Link from "next/link";
 
 export default function Home() {
-  const manifestData = getStaticImageManifest();
-
-  if (!manifestData) {
-    return <p>No images found in the manifest.</p>;
-  }
-
-  const firstImage = manifestData.images[0];
-  const secondImage = manifestData.images[1];
+  const firstImage = "landscape.jpg";
+  const secondImage = "portrait.jpg";
 
   return (
     <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
@@ -48,21 +42,19 @@ export default function Home() {
         >
           {firstImage && (
             <div>
-              <h3>{firstImage.id}</h3>
-              <ImageStatic image={firstImage.staticPath} alt={firstImage.id} />
+              <h3>Landscape</h3>
+              <ImageStatic image={firstImage} alt="Landscape" />
               <p style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "#666" }}>
-                {firstImage.width}x{firstImage.height} ({firstImage.aspectRatio.toFixed(2)} aspect
-                ratio)
+                1920x1080 (1.78 aspect ratio)
               </p>
             </div>
           )}
           {secondImage && (
             <div>
-              <h3>{secondImage.id}</h3>
-              <ImageStatic image={secondImage.staticPath} alt={secondImage.id} />
+              <h3>Portrait</h3>
+              <ImageStatic image={secondImage} alt="Portrait" />
               <p style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "#666" }}>
-                {secondImage.width}x{secondImage.height} ({secondImage.aspectRatio.toFixed(2)}{" "}
-                aspect ratio)
+                1080x1920 (0.56 aspect ratio)
               </p>
             </div>
           )}

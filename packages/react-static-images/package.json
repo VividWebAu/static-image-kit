@@ -38,7 +38,12 @@
     "./types": {
       "import": "./dist/types.js",
       "types": "./dist/types.d.ts"
-    }
+    },
+    "./static-image-map": {
+      "import": "./static-image-map.js",
+      "types": "./static-image-map.d.ts"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "dev": "tsc --watch",
