@@ -57,6 +57,7 @@ apps/test-next/public/.processed-static-images/
 # Temporary manifest files from pipeline runs
 *.manifest.tmp
 *.manifest.json.tmp
+packages/react-static-images/static-image-map.js
 
 # NOTE: Original test images (apps/test-next/public/test-images/)
 # ARE committed as the source of truth for visual testing.

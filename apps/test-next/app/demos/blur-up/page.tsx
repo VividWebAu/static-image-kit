@@ -1,14 +1,8 @@
-import { getStaticImageManifest, ImageStatic } from "@vividwebau/react-static-images";
+import { ImageStatic } from "@vividwebau/react-static-images";
 import Link from "next/link";
 
 export default function BlurUpDemo() {
-  const manifest = getStaticImageManifest();
-
-  if (!manifest) {
-    return <p>No images found in the manifest.</p>;
-  }
-
-  const image = manifest.images[0];
+  const image = "landscape.jpg";
 
   return (
     <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
@@ -34,7 +28,7 @@ export default function BlurUpDemo() {
         <h2>Demo Images:</h2>
         {image && (
           <div style={{ marginTop: "1rem", maxWidth: "600px" }}>
-            <ImageStatic image={image.staticPath} alt={image.id} priority />
+            <ImageStatic image={image} alt="Landscape" priority />
             <p
               style={{
                 marginTop: "0.5rem",

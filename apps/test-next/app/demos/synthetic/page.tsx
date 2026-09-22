@@ -1,13 +1,7 @@
-import { getStaticImageManifest, ImageStatic } from "@vividwebau/react-static-images";
+// import { ImageStatic } from "@vividwebau/react-static-images";
 import Link from "next/link";
 
 export default function SyntheticDemo() {
-  const manifestData = getStaticImageManifest();
-
-  if (!manifestData) {
-    return <p>No images found in the manifest.</p>;
-  }
-
   return (
     <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
       <Link href="/" style={{ textDecoration: "underline" }}>
@@ -38,7 +32,7 @@ export default function SyntheticDemo() {
             marginTop: "1rem",
           }}
         >
-          {manifestData.images.map((image) => (
+          {/* {manifestData.images.map((image) => (
             <div key={image.id}>
               <h4 style={{ marginBottom: "0.5rem" }}>{image.id}</h4>
               <ImageStatic image={image.staticPath} alt={image.id} />
@@ -46,7 +40,7 @@ export default function SyntheticDemo() {
                 {image.width}x{image.height}
               </p>
             </div>
-          ))}
+          ))} */}
         </div>
       </section>
       <section>

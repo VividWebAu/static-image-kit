@@ -1,18 +1,11 @@
 import {
   generatePaddingBottom,
-  getStaticImageManifest,
   ImageStatic,
 } from "@vividwebau/react-static-images";
 import Link from "next/link";
 
 export default function AspectRatioDemo() {
-  const manifest = getStaticImageManifest();
-
-  if (!manifest) {
-    return <p>No images found in the manifest.</p>;
-  }
-
-  const image = manifest.images[1];
+  const image = "landscape.jpg";
 
   return (
     <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
@@ -39,12 +32,11 @@ export default function AspectRatioDemo() {
         {image && (
           <div>
             <p>
-              This image has an aspect ratio of {image.aspectRatio.toFixed(2)}:1 ({image.width}x
-              {image.height}). The component automatically prevents layout shift using CSS
-              padding-bottom of <code>{generatePaddingBottom(image.aspectRatio)}</code>
+              This image has an aspect ratio of 1.78:1 (1920x1080). The component automatically prevents layout shift using CSS
+              padding-bottom of <code>{generatePaddingBottom(1.78)}</code>
             </p>
             <div style={{ marginTop: "1rem", maxWidth: "600px" }}>
-              <ImageStatic image={image.staticPath} alt={image.id} />
+              <ImageStatic image={image} alt="Landscape" />
             </div>
             <p style={{ marginTop: "1rem", fontSize: "0.875rem", color: "#666" }}>
               Try resizing your window - the image container will maintain its aspect ratio without

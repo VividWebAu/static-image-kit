@@ -1,5 +1,5 @@
 import type { ImgHTMLAttributes } from "react";
-import { getStaticImageManifest } from "./manifest-registry.js";
+import staticImageManifest from "../static-image-map.js";
 import type { ManifestData } from "./types.js";
 
 function resolveImage(manifest: ManifestData, image: string) {
@@ -21,7 +21,7 @@ type Vw = `${number}vw`;
 type Percent = `${number}%`;
 type NumericFraction = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0 | 1;
 type SizeValue = Px | Vw | Percent | NumericFraction;
-type SizeBreakpoints = "default" |"2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+type SizeBreakpoints = "default" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "sizes"> {
   image: string; // TODO: Implement this as relative path to original image (stabel reference)
@@ -45,19 +45,20 @@ export function ImageStatic({
   sizes = "100vw",
   ...props
 }: ImageStaticProps) {
-  const manifestToUse = manifest ?? getStaticImageManifest();
+  const manifestToUse = manifest ?? staticImageManifest;
+
+  const manifestIsEmpty = !manifestToUse?.images || manifestToUse.images.length === 0;
+  if (manifestIsEmpty) {
+    return <img src={image} alt={alt} {...props} />;
+  }
 
   const manifestItem = manifestToUse ? resolveImage(manifestToUse, image) : null;
-
   if (!manifestItem) {
     return <img src={image} alt={alt} {...props} />;
   }
 
   // --- SIZES ---
-  const breakpointMap: Record<
-    SizeBreakpoints,
-    string
-  > = {
+  const breakpointMap: Record<SizeBreakpoints, string> = {
     default: "0px",
     "2xs": "360px",
     xs: "480px",

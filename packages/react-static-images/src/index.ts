@@ -11,10 +11,6 @@ export {
   getImageCluster,
   loadManifest,
 } from "./manifest.js";
-export {
-  getStaticImageManifest,
-  setStaticImageManifest,
-} from "./manifest-registry.js";
 export type {
   BlurPlaceholder,
   ImageMetadata,
