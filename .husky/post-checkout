@@ -1,0 +1,2 @@
+#!/bin/sh
+git update-index --skip-worktree packages/react-static-images/static-image-map.js || true
