@@ -19,7 +19,12 @@ export default function LayoutsDemo() {
 
           <div style={{ display: "flex", gap: "1rem" }}>
             <div style={{ width: "33%", height: "300px", border: "1px solid #ccc" }}>
-              <ImageStatic image="landscape.jpg" alt="Landscape" layout="contain" />
+              <ImageStatic
+                image="landscape.jpg"
+                alt="Landscape"
+                layout="contain"
+                sizes={{ md: "100vw", lg: "90vw", default: "80vw", sm: "70vw" }}
+              />
             </div>
             <div style={{ width: "33%", height: "300px", border: "1px solid #ccc" }}>
               <ImageStatic image="portrait.jpg" alt="Portrait" layout="contain" />
