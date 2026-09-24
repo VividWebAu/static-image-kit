@@ -14,7 +14,7 @@ function resolveImage(manifest: ManifestData, image: string) {
   );
 }
 
-export type ImageLayout = "intrinsic" | "responsive" | "fill" | "fixed";
+export type ImageLayout = "contain" | "cover" | "fill" | "fixed";
 
 type Px = `${number}px`;
 type Vw = `${number}vw`;
@@ -24,7 +24,7 @@ type SizeValue = Px | Vw | Percent | NumericFraction;
 type SizeBreakpoints = "default" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "sizes"> {
-  image: string; // TODO: Implement this as relative path to original image (stabel reference)
+  image: string;
   layout?: ImageLayout;
   /** Fallback to the global manifest if not provided */
   manifest?: ManifestData;
@@ -32,17 +32,23 @@ export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElemen
   priority?: boolean;
   /** Extend `sizes` to include an object mapping media queries to sizes */
   sizes?: string | { [key in SizeBreakpoints]?: SizeValue };
+  /** The horizontal position of the image within its container */
+  positionX?: "left" | "center" | "right";
+  /** The vertical position of the image within its container */
+  positionY?: "top" | "center" | "bottom";
 }
 
 export function ImageStatic({
   alt,
   image,
-  layout = "intrinsic",
+  layout = "contain",
   manifest,
   priority,
   width,
   height,
   sizes = "100vw",
+  positionX,
+  positionY,
   ...props
 }: ImageStaticProps) {
   const manifestToUse = manifest ?? staticImageManifest;
@@ -89,67 +95,38 @@ export function ImageStatic({
       .join(", ");
   }
 
-  const wrapperStyle: React.CSSProperties = {};
-  const imgStyle: React.CSSProperties = {};
+  const imgStyle: React.CSSProperties = {
+    width: "100%",
+    height: "100%",
+  };
 
   // --- LAYOUT LOGIC ---
-  if (layout === "intrinsic") {
-    imgStyle.width = "100%";
-    imgStyle.height = "auto";
-    Object.assign(imgStyle, props.style);
-  }
-
-  if (layout === "responsive") {
-    const padding = `${100 / (manifestItem?.aspectRatio ?? 1)}%`;
-    wrapperStyle.position = "relative";
-    wrapperStyle.width = "100%";
-    wrapperStyle.paddingBottom = padding;
-    Object.assign(wrapperStyle, props.style);
-
-    imgStyle.position = "absolute";
-    imgStyle.inset = "0";
-    imgStyle.width = "100%";
-    imgStyle.height = "100%";
-    imgStyle.objectFit = "cover";
-    Object.assign(imgStyle, props.style);
-  }
-
-  if (layout === "fill") {
-    wrapperStyle.position = "relative";
-    wrapperStyle.width = "100%";
-    wrapperStyle.height = "100%";
-    Object.assign(wrapperStyle, props.style);
-
-    imgStyle.position = "absolute";
-    imgStyle.inset = "0";
-    imgStyle.width = "100%";
-    imgStyle.height = "100%";
-    imgStyle.objectFit = props.style?.objectFit ?? "cover";
-    Object.assign(imgStyle, props.style);
-  }
-
   if (layout === "fixed") {
-    imgStyle.width = width ?? manifestItem?.width;
-    imgStyle.height = height ?? manifestItem?.height;
-    Object.assign(imgStyle, props.style);
+    imgStyle.objectFit = "none";
+    imgStyle.width = width ? `${width}px` : "auto";
+    imgStyle.height = height ? `${height}px` : "auto";
+  } else {
+    imgStyle.objectFit = layout;
   }
+
+  // --- POSITION LOGIC ---
+  imgStyle.objectPosition = `${positionY ?? "center"} ${positionX ?? "center"}`;
+
+  Object.assign(imgStyle, props.style);
 
   // --- BLUR PLACEHOLDER ---
   const blur = manifestItem.blurDataURL;
-  const consumerOpacity = props.style?.opacity;
 
-  if (blur) {
-    imgStyle.backgroundImage = `url(${blur})`;
+  if (blur && layout !== "contain") {
+    imgStyle.backgroundImage = `url(${manifestItem.blurDataURL})`;
     imgStyle.backgroundSize = "cover";
     imgStyle.backgroundPosition = "center";
-    imgStyle.transition = "opacity 0.4s ease";
-    imgStyle.opacity = 0;
   }
 
   const formats = ["avif", "webp", "jpeg"];
 
-  const pictureElement = (
-    <picture>
+  return (
+    <picture id="image-static-picture">
       {/* Optimized sources: */}
       {formats.map((format) => {
         if (!manifestItem?.variants?.length) return null;
@@ -158,11 +135,20 @@ export function ImageStatic({
 
         const srcSet = variants.map((v) => `${v.src} ${v.width}w`).join(", ");
 
-        return <source key={format} type={`image/${format}`} srcSet={srcSet} sizes={sizes} />;
+        return (
+          <source
+            key={format}
+            id={`image-static-source-${format}`}
+            type={`image/${format}`}
+            srcSet={srcSet}
+            sizes={sizes}
+          />
+        );
       })}
 
       {/* Fallback original image: */}
       <img
+        id="image-static-img"
         alt={alt}
         src={manifestItem.srcUnoptimized}
         sizes={sizes}
@@ -171,15 +157,9 @@ export function ImageStatic({
         decoding={priority ? undefined : "async"}
         width={width ?? manifestItem.width}
         height={height ?? manifestItem.height}
-        style={{ ...imgStyle, opacity: consumerOpacity ?? 1 }}
+        style={imgStyle}
         {...props}
       />
     </picture>
   );
-
-  if (layout === "fill" || layout === "responsive") {
-    return <div style={wrapperStyle}>{pictureElement}</div>;
-  }
-
-  return pictureElement;
 }

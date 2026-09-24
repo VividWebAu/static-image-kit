@@ -13,6 +13,13 @@ export default function Home() {
       <nav>
         <ul style={{ listStyle: "none", paddingLeft: 0 }}>
           <li>
+            <Link href="/demos/layouts">→ Layouts Demo</Link>
+          </li>
+          <li>
+            <Link href="/demos/blur">→ Blur Comparison Demo</Link>
+          </li>
+          OLD LINKS
+          <li>
             <Link href="/demos/blur-up">→ Blur-up (Progressive Loading)</Link>
           </li>
           <li>
