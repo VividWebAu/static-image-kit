@@ -24,13 +24,26 @@ type SizeValue = Px | Vw | Percent | NumericFraction;
 type SizeBreakpoints = "default" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "sizes"> {
+  /** The source image to be displayed. Can be a path to the image or an image ID from the manifest. */
   image: string;
+  /**
+   * The layout behavior of the image. Can be one of:
+   * - "contain": The image will be scaled to fit within its container while maintaining its aspect ratio.
+   * - "cover": The image will be scaled to cover its container while maintaining its aspect ratio.
+   * - "fill": The image will stretch to fill its container, ignoring its aspect ratio.
+   * - "fixed": The image will have a fixed size based on the `width` and `height` props.
+   */
   layout?: ImageLayout;
   /** Fallback to the global manifest if not provided */
   manifest?: ManifestData;
-  /** Whether the image should be prioritized for loading; sets the `loading`, `fetchPriority` and `decoding` attributes accordingly */
+  /**
+   * Whether the image should be prioritized for loading; sets the `loading`, `fetchPriority` and `decoding` attributes accordingly.
+   */
   priority?: boolean;
-  /** Extend `sizes` to include an object mapping media queries to sizes */
+  /**
+   * The sizes attribute specifies the layout width of the image for different viewport sizes.
+   * Can be a string (e.g., "100vw") or an object mapping breakpoints to size values.
+   */
   sizes?: string | { [key in SizeBreakpoints]?: SizeValue };
   /** The horizontal position of the image within its container */
   positionX?: "left" | "center" | "right";
@@ -38,6 +51,9 @@ export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElemen
   positionY?: "top" | "center" | "bottom";
 }
 
+/**
+ * A pure RSC component for displaying static images with support for responsive sizes, layout options, and positioning.
+ */
 export function ImageStatic({
   alt,
   image,
@@ -65,14 +81,14 @@ export function ImageStatic({
 
   // --- SIZES ---
   const breakpointMap: Record<SizeBreakpoints, string> = {
-    default: "0px",
-    "2xs": "360px",
-    xs: "480px",
-    sm: "640px",
-    md: "768px",
-    lg: "1024px",
-    xl: "1280px",
     "2xl": "1536px",
+    xl: "1280px",
+    lg: "1024px",
+    md: "768px",
+    sm: "640px",
+    xs: "480px",
+    "2xs": "360px",
+    default: "0px",
   };
 
   const normalizeSizeValue = (value: SizeValue) =>
@@ -87,12 +103,15 @@ export function ImageStatic({
             : value;
 
   if (typeof sizes === "object") {
-    sizes = Object.entries(sizes)
+    const sizesObject = sizes as Exclude<typeof sizes, string>;
+    const responsiveSizes = Object.entries(breakpointMap)
+      .filter(([key]) => key in sizesObject)
       .map(
-        ([key, value]) =>
-          `(min-width: ${breakpointMap[key as keyof typeof breakpointMap]}) ${normalizeSizeValue(value)}`,
+        ([key]) =>
+          `(min-width: ${breakpointMap[key as keyof typeof breakpointMap]}) ${normalizeSizeValue(sizesObject[key as keyof typeof sizesObject] ?? "100vw")}`,
       )
       .join(", ");
+    sizes = responsiveSizes;
   }
 
   const imgStyle: React.CSSProperties = {
