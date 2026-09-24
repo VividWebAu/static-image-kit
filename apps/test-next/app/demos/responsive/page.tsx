@@ -28,27 +28,27 @@ export default function ResponsiveDemo() {
         <h2>Responsive Image Examples:</h2>
         {image && (
           <div style={{ marginTop: "1rem" }}>
-            <ImageStatic image={image} alt="Landscape" layout="intrinsic" sizes={{ sm: "100px" }} />
+            <ImageStatic image={image} alt="Landscape" sizes={{ sm: "100px" }} />
             Intrinsic layout (default) sizes: 100px StaticPath: {image}
             <br />
-            <ImageStatic image={image} alt="Landscape" layout="intrinsic" sizes={{ sm: "50vw" }} />
+            <ImageStatic image={image} alt="Landscape" sizes={{ sm: "50vw" }} />
             Intrinsic layout (default) sizes: 50vw
             <br />
-            <ImageStatic image={image} alt="Landscape" layout="intrinsic" sizes={{ sm: "25%" }} />
+            <ImageStatic image={image} alt="Landscape" sizes={{ sm: "25%" }} />
             Intrinsic layout (default) 25%
             <br />
-            <ImageStatic image={image} alt="Landscape" layout="intrinsic" sizes={{ sm: 0.3 }} />
+            <ImageStatic image={image} alt="Landscape" sizes={{ sm: 0.3 }} />
             Intrinsic layout (default) sizes: 30%
             <br />
-            <ImageStatic image={image} alt="Landscape" layout="responsive" />
+            <ImageStatic image={image} alt="Landscape" />
             Responsive layout
             <br />
             <div style={{ position: "relative", width: "300px", height: "400px" }}>
-              <ImageStatic image={image} alt="Landscape" layout="fill" />
+              <ImageStatic image={image} alt="Landscape" />
             </div>
             Fill layout (300x400)
             <br />
-            <ImageStatic image={image} alt="Landscape" layout="fixed" width={300} height={400} />
+            <ImageStatic image={image} alt="Landscape" width={300} height={400} />
             <br />
             Fixed layout (300x400)
             <p
