@@ -47,7 +47,7 @@ export default function LayoutsDemo() {
                 alt="Landscape"
                 layout="contain"
                 positionX="left"
-                positionY="top"
+                positionY="bottom"
               />
             </div>
             <div style={{ width: "33%", height: "300px", border: "1px solid #ccc" }}>
@@ -64,8 +64,8 @@ export default function LayoutsDemo() {
                 image="square.jpg"
                 alt="Square"
                 layout="contain"
-                positionX="right"
-                positionY="bottom"
+                positionX="left"
+                positionY="top"
               />
             </div>
           </div>
@@ -101,8 +101,8 @@ export default function LayoutsDemo() {
                 image="landscape.jpg"
                 alt="Landscape"
                 layout="cover"
-                positionX="left"
-                positionY="top"
+                positionX="90%"
+                positionY="100px"
               />
             </div>
             <div style={{ width: "33%", height: "300px", border: "1px solid #ccc" }}>
@@ -110,7 +110,7 @@ export default function LayoutsDemo() {
                 image="portrait.jpg"
                 alt="Portrait"
                 layout="cover"
-                positionX="left"
+                positionX="25px"
                 positionY="top"
               />
             </div>
@@ -120,7 +120,7 @@ export default function LayoutsDemo() {
                 alt="Square"
                 layout="cover"
                 positionX="right"
-                positionY="bottom"
+                positionY="10%"
               />
             </div>
           </div>

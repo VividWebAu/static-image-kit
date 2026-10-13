@@ -46,9 +46,9 @@ export interface ImageStaticProps extends Omit<ImgHTMLAttributes<HTMLImageElemen
    */
   sizes?: string | { [key in SizeBreakpoints]?: SizeValue };
   /** The horizontal position of the image within its container */
-  positionX?: "left" | "center" | "right";
+  positionX?: "left" | "center" | "right" | Percent | Px;
   /** The vertical position of the image within its container */
-  positionY?: "top" | "center" | "bottom";
+  positionY?: "top" | "center" | "bottom" | Percent | Px;
 }
 
 /**
@@ -129,7 +129,7 @@ export function ImageStatic({
   }
 
   // --- POSITION LOGIC ---
-  imgStyle.objectPosition = `${positionY ?? "center"} ${positionX ?? "center"}`;
+  imgStyle.objectPosition = `${positionX ?? "center"} ${positionY ?? "center"}`;
 
   Object.assign(imgStyle, props.style);
 
