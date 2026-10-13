@@ -67,20 +67,56 @@ export async function runPipeline(
 }
 
 /**
+ * Moves stale processed images to a temporary directory
+ * Ensures we have cached processed images we can use instead of regenerating
+ * This directory is deleted after processing
+ */
+export async function moveStaleImagesTemp(outputDir: string, tempDir: string): Promise<void> {
+  try {
+    if (!(await fileExists(outputDir))) {
+      return; // Nothing to move
+    }
+
+    console.log("[Pipeline] Moving previous variants to temp cache...");
+
+    await ensureDirectory(tempDir);
+
+    const entries = await fs.readdir(outputDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const src = path.join(outputDir, entry.name);
+
+      if (entry.isDirectory()) {
+        // Move hash directory
+        const dest = path.join(tempDir, entry.name);
+        await fs.rename(src, dest);
+        console.log(`[Pipeline] Cached previous variants: ${entry.name}`);
+      } else {
+        // Delete stray files
+        await fs.rm(src, { force: true });
+        console.log(`[Pipeline] Removed stray file: ${entry.name}`);
+      }
+    }
+  } catch (error) {
+    console.warn("[Pipeline] Warning during moveStaleImagesTemp:", error);
+  }
+}
+
+/**
  * Clean up stale processed images before regenerating
  * Ensures no orphaned files from deleted or moved originals
  */
-export async function cleanupStaleImages(outputDir: string): Promise<void> {
+export async function cleanupStaleImages(tempDir: string): Promise<void> {
   try {
-    if (!(await fileExists(outputDir))) {
+    if (!(await fileExists(tempDir))) {
       return; // Nothing to clean up
     }
 
     console.log("[Pipeline] Cleaning up previous variants...");
-    const entries = await readDir(outputDir);
+    const entries = await readDir(tempDir);
 
     for (const entry of entries) {
-      const fullPath = path.join(outputDir, entry);
+      const fullPath = path.join(tempDir, entry);
       const stat = await fs.stat(fullPath);
       if (stat.isDirectory()) {
         // Remove hash directories (old variant folders)
@@ -122,11 +158,13 @@ export async function generateVariants(
   const widths = options.widths ?? [160, 320, 640, 960, 1280];
   const formats = options.formats ?? ["avif", "webp", "jpeg"];
   const outputDir = options.outputDir!;
+  // TODO: Pull tempDir from options (hardcoded for now)
+  const tempDir = ".static-images-temp-cache";
 
   console.log("[Pipeline] Generating responsive variants");
 
-  // Clean up stale images before generating new ones
-  await cleanupStaleImages(outputDir);
+  // Move stale images to a temporary dir
+  await moveStaleImagesTemp(outputDir, tempDir);
 
   for (const imagePath of imagePaths) {
     const fileName = path.basename(imagePath);
@@ -157,6 +195,15 @@ export async function generateVariants(
         const variantFileName = `${fileNameWithoutExt}-${width}w.${format}`;
         const variantPath = path.join(variantDir, variantFileName);
 
+        const cachedVariantPath = path.join(tempDir, hash, variantFileName);
+
+        // Reuse previous copy of the same variant if available
+        if (await fileExists(cachedVariantPath)) {
+          console.log(`[Pipeline] Reusing cached variant: ${variantFileName}`);
+          await fs.copyFile(cachedVariantPath, variantPath);
+          continue; // Skip regeneration
+        }
+
         try {
           const pipeline = sharp(imagePath).resize(width, undefined, {
             withoutEnlargement: true,
@@ -179,6 +226,9 @@ export async function generateVariants(
       }
     }
   }
+
+  // Cleanup stale temp cached directory
+  await cleanupStaleImages(tempDir);
 
   console.log("[Pipeline] Variant generation complete");
 }

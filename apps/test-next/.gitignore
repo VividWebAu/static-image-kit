@@ -6,6 +6,7 @@
 # Processed image variants (resized, format-converted)
 # These are generated at build time
 public/.processed-static-images/
+.static-images-temp-cache/
 
 # Next.js build artifacts
 .next/

@@ -116,12 +116,24 @@ async function updateGitignore(gitignorePath: string): Promise<void> {
     content = "";
   }
 
-  const line = "public/.processed-static-images/";
-  const lines = content.split(/\r?\n/);
+  const normalize = (line: string) => line.replace(/\/+$/, "");
 
-  if (!lines.includes(line)) {
-    lines.push("", line);
-    await fs.writeFile(gitignorePath, `${lines.join("\n").replace(/\n{3,}/g, "\n\n")}\n`, "utf8");
+  const lines = content.split(/\r?\n/);
+  const existing = new Set(lines.map(normalize));
+
+  const required = ["public/.processed-static-images/", ".static-images-temp-cache/"];
+
+  const toAdd = required.filter((line) => !existing.has(normalize(line)));
+
+  if (toAdd.length > 0) {
+    lines.push("", ...toAdd);
+
+    const cleaned = `${lines
+      .join("\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trimEnd()}\n`;
+
+    await fs.writeFile(gitignorePath, cleaned, "utf8");
   }
 }
 
